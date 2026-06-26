@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
@@ -21,30 +21,22 @@ type Phase = 'intro' | 'playing' | 'event_pause' | 'finished'
 interface LiveMessage { id: number; text: string; type: 'normal' | 'highlight' | 'goal' | 'event' }
 
 /** 根据赛轮次和队伍所在组找到本场对手 */
-function findOpponent(round: string, userTeamName: string, tournament: TournamentState | null): NationalTeam | undefined {
-  if (!tournament || !tournament.groups) {
-    // 回退: 取同组同轮次的对手
-    const userGroup = allTeams.find(t => t.name === userTeamName)?.group
-    if (!userGroup) return undefined
-    const groupTeams = allTeams.filter(t => t.group === userGroup && t.name !== userTeamName)
-    return groupTeams[0]
-  }
-
-  // 从小组赛记录中找本场对手
-  const records = Object.values(tournament.groups).flat()
-  const userRecord = records.find(r => r.teamName === userTeamName)
-  if (!userRecord) return undefined
-
-  // 找到用户队伍的组
-  for (const [groupId, groupRecords] of Object.entries(tournament.groups)) {
-    if (groupRecords.find(r => r.teamName === userTeamName)) {
-      const opponentRecord = groupRecords.find(r => r.teamName !== userTeamName)
-      if (opponentRecord) {
-        return allTeams.find(t => t.id === opponentRecord.teamId)
+function findOpponent(tournament: TournamentState | null, userTeamName: string): NationalTeam {
+  // 从tournament找用户队伍所在组
+  if (tournament) {
+    for (const [_, records] of Object.entries(tournament.groups)) {
+      const userRecord = records.find(r => r.teamId === 'PLAYER')
+      if (userRecord) {
+        const opponent = records.find(r => r.teamId !== 'PLAYER')
+        if (opponent) {
+          const found = allTeams.find(t => t.id === opponent.teamId)
+          if (found) return found
+        }
       }
     }
   }
-  return undefined
+  // 最终回退
+  return allTeams[0]
 }
 
 export default function MatchPage() {
@@ -66,7 +58,7 @@ export default function MatchPage() {
   const minorQueueRef = useRef<GameEvent[]>([])
 
   // 获取当前对手
-  const opponent = findOpponent(round, userTeam.name, tournament) || allTeams.find(t => t.group === 'A' && t.name !== userTeam.name) || allTeams[0]
+  const opponent = useMemo(() => findOpponent(tournament, userTeam.name), [tournament, userTeam.name])
 
   function addMsg(text: string, type: LiveMessage['type'] = 'normal') {
     setMessages(prev => [...prev.slice(-50), { id: msgIdRef.current++, text, type }])

@@ -19,11 +19,13 @@ interface Props {
   usedCountryIds: string[]
   onSelect: (player: Player, countryId: string) => void
   onClose: () => void
+  allowAnyPosition?: boolean
+  maxRerolls?: number
 }
 
-export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose }: Props) {
+export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose, allowAnyPosition = false, maxRerolls = 2 }: Props) {
   const [country, setCountry] = useState<NationalTeam | null>(null)
-  const [rerollsLeft, setRerollsLeft] = useState(2)
+  const [rerollsLeft, setRerollsLeft] = useState(maxRerolls)
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [animating, setAnimating] = useState(false)
 
@@ -52,17 +54,33 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
   // 首次打开时随机
   useEffect(() => {
     if (open) {
-      setRerollsLeft(2)
+      setRerollsLeft(maxRerolls)
       setSelectedPlayer(null)
       rollCountry()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, position])
+  }, [open, position, maxRerolls])
 
-  const players = useMemo(() =>
-    country ? getPlayers(country.id, position) : [],
-    [country, position]
-  )
+  // 所有位置列表
+  const allPositionsList: Position[] = ['GK','CB','LB','RB','LWB','RWB','CDM','CM','CAM','LM','RM','LW','RW','ST']
+
+  const players = useMemo(() => {
+    if (!country) return []
+    if (allowAnyPosition) {
+      const seen = new Set<string>()
+      const result: Player[] = []
+      for (const pos of allPositionsList) {
+        for (const p of getPlayers(country.id, pos)) {
+          if (!seen.has(p.id)) {
+            seen.add(p.id)
+            result.push(p)
+          }
+        }
+      }
+      return result
+    }
+    return getPlayers(country.id, position)
+  }, [country, position, allowAnyPosition])
 
   function handleConfirm() {
     if (!selectedPlayer || !country) return
@@ -71,7 +89,7 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
   }
 
   return (
-    <Modal open={open} onClose={onClose} title={`选择 ${position} 位置球员`}>
+    <Modal open={open} onClose={onClose} title={`选择 ${allowAnyPosition ? '替补' : position} 位置球员`}>
       {/* 国家展示区 */}
       <div className="text-center mb-3 min-h-[80px] flex flex-col items-center justify-center">
         <AP mode="wait">
@@ -97,14 +115,14 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
             onClick={() => setSelectedPlayer(p)} />
         ))}
         {players.length === 0 && !animating && country && (
-          <p className="text-white/30 text-center py-4">该国没有{position}位置的球员</p>
+          <p className="text-white/30 text-center py-4">该国没有{allowAnyPosition ? '可用' : position}位置的球员</p>
         )}
       </div>
 
       {/* 操作按钮 */}
       <div className="flex gap-2">
         <Button variant="secondary" size="sm" onClick={handleReroll} disabled={rerollsLeft <= 0 || availableCountries.length <= 1}>
-          <RotateCcw className="inline mr-1" size={14} />重新随机 ({rerollsLeft}/2)
+          <RotateCcw className="inline mr-1" size={14} />重新随机 ({rerollsLeft}/{maxRerolls})
         </Button>
         <Button size="sm" className="flex-1" onClick={handleConfirm} disabled={!selectedPlayer}>
           确认选择 {selectedPlayer?.name || ''}

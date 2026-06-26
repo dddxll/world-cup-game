@@ -104,7 +104,7 @@ export const allCoaches: Coach[] = [
     id: 'coach-USA', name: '毛里西奥·波切蒂诺', nameEn: 'Mauricio Pochettino',
     nationality: '阿根廷', avatar: '/images/coaches/coach-USA.png',
     style: '高位压迫', att: 17, def: 13, adp: 16,
-    preferredFormations: ['4-3-3', '4-2-3-1', '4-2-2-2'],
+    preferredFormations: ['4-3-3', '4-2-3-1', '4-4-2'],
     description: '阿根廷名帅，高压逼抢与年轻化改造大师',
   },
   {

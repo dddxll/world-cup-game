@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FormationPitch } from '@/components/formation/FormationPitch'
@@ -26,6 +26,15 @@ export default function SquadPage() {
     return ids
   }, [userTeam.startingXI, userTeam.bench])
 
+  // 选满11人自动跳转（监听 state 变化，避免旧 state 计数不准）
+  useEffect(() => {
+    const filled = userTeam.startingXI.filter(p => p !== null).length
+    if (filled >= 11) {
+      const timer = setTimeout(() => navigate('/squad-bench'), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [userTeam.startingXI, navigate])
+
   // 下一个待选位置
   const nextEmptyIndex = useMemo(() =>
     userTeam.startingXI.findIndex(p => p === null),
@@ -43,11 +52,7 @@ export default function SquadPage() {
     if (activeIndex === null) return
     setStartingPlayer(activeIndex, player)
     setActiveIndex(null)
-    // 选满11人自动跳转
-    const filled = userTeam.startingXI.filter(p => p !== null).length + 1
-    if (filled >= 11) {
-      setTimeout(() => navigate('/squad-bench'), 500)
-    }
+    // 选满11人自动跳转由 useEffect 处理
   }
 
   const filledCount = userTeam.startingXI.filter(p => p !== null).length
@@ -88,6 +93,7 @@ export default function SquadPage() {
             usedCountryIds={usedCountryIds}
             onSelect={handlePlayerSelect}
             onClose={() => setActiveIndex(null)}
+            maxRerolls={2}
           />
         )}
       </motion.div>

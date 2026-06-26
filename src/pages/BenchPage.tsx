@@ -93,10 +93,12 @@ export default function BenchPage() {
         {/* 弹窗 */}
         <PlayerDrawer
           open={showDrawer}
-          position={benchPositions.includes('GK') ? 'GK' : 'CM'} // 默认位置，实际不限
+          position={'CM'}
           usedCountryIds={usedCountryIds}
           onSelect={handleSelect}
           onClose={() => setShowDrawer(false)}
+          allowAnyPosition={true}
+          maxRerolls={0}
         />
       </motion.div>
     </div>
