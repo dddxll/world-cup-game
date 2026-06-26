@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
@@ -11,6 +11,14 @@ export default function BenchPage() {
   const navigate = useNavigate()
   const { userTeam, addBenchPlayer, removeBenchPlayer, pkData } = useGameStore()
   const [showDrawer, setShowDrawer] = useState(false)
+
+  // 选满15人自动跳转
+  useEffect(() => {
+    if (userTeam.bench.length >= 15) {
+      const timer = setTimeout(() => navigate('/team-review'), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [userTeam.bench.length, navigate])
 
   const usedCountryIds = useMemo(() => {
     const ids: string[] = []
@@ -31,9 +39,7 @@ export default function BenchPage() {
   const handleSelect = (player: Player, _countryId: string) => {
     addBenchPlayer(player)
     setShowDrawer(false)
-    if (userTeam.bench.length + 1 >= 15) {
-      setTimeout(() => navigate('/team-review'), 500)
-    }
+    // 跳转由 useEffect 处理
   }
 
   const benchCount = userTeam.bench.length

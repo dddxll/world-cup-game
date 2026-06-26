@@ -21,7 +21,7 @@ const POS_COORDS: Partial<Record<Position, { x: number; y: number }>> = {
 }
 
 // 位置类型分组，用于 x 轴自动分布
-const POSITION_GROUPS: Position[] = ['CB', 'CM', 'ST']
+const POSITION_GROUPS: Position[] = ['CB', 'CM', 'ST', 'CDM', 'CAM']
 
 /**
  * 获取第 idx 个位置的坐标。
@@ -43,6 +43,16 @@ function getCoords(positions: Position[], idx: number): { x: number; y: number }
       const base = POS_COORDS[pos] || { x: 50, y: 50 }
       const spacing = 80 / (count + 1)
       return { x: 10 + spacing * (groupIndex + 1), y: base.y }
+    }
+  }
+
+  // 如果坐标不存在，尝试分组推算（避免多个同类型位置重叠在中心）
+  if (!POS_COORDS[pos]) {
+    const allSame = positions.filter(p => p === pos).length
+    const sameIdx = positions.slice(0, idx).filter(p => p === pos).length
+    if (allSame > 1) {
+      const spacing = 80 / (allSame + 1)
+      return { x: 10 + spacing * (sameIdx + 1), y: 45 }
     }
   }
 

@@ -34,10 +34,26 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
     [usedCountryIds]
   )
 
+  // 有效国家：对该位置有球员的国家
+  const allPositionsList: Position[] = ['GK','CB','LB','RB','LWB','RWB','CDM','CM','CAM','LM','RM','LW','RW','ST']
+
+  const validCountries = useMemo(() => {
+    return availableCountries.filter(c => {
+      if (allowAnyPosition) {
+        for (const pos of allPositionsList) {
+          if (getPlayers(c.id, pos).length > 0) return true
+        }
+        return false
+      }
+      return getPlayers(c.id, position).length > 0
+    })
+  }, [availableCountries, position, allowAnyPosition])
+
   function rollCountry() {
-    if (availableCountries.length === 0) return
+    const pool = validCountries.length > 0 ? validCountries : availableCountries
+    if (pool.length === 0) return
     setAnimating(true)
-    const picked = availableCountries[Math.floor(Math.random() * availableCountries.length)]
+    const picked = pool[Math.floor(Math.random() * pool.length)]
     setTimeout(() => {
       setCountry(picked)
       setSelectedPlayer(null)
@@ -62,7 +78,7 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
   }, [open, position, maxRerolls])
 
   // 所有位置列表
-  const allPositionsList: Position[] = ['GK','CB','LB','RB','LWB','RWB','CDM','CM','CAM','LM','RM','LW','RW','ST']
+  // 注：allPositionsList 已在上方定义，直接使用
 
   const players = useMemo(() => {
     if (!country) return []
