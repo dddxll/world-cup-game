@@ -5,6 +5,7 @@ import CoachPage from '@/pages/CoachPage'
 import FormationPage from '@/pages/FormationPage'
 import SquadPage from '@/pages/SquadPage'
 import BenchPage from '@/pages/BenchPage'
+import TeamReviewPage from '@/pages/TeamReviewPage'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/formation" element={<FormationPage />} />
         <Route path="/squad" element={<SquadPage />} />
         <Route path="/squad-bench" element={<BenchPage />} />
+        <Route path="/team-review" element={<TeamReviewPage />} />
       </Routes>
     </div>
   )
