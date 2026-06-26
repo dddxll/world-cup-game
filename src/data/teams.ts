@@ -79,10 +79,10 @@ export const allTeams: NationalTeam[] = [
     coachId: 'coach-SCO', coachStyle: '高位压迫',
   },
   {
-    id: 'JAM', name: '牙买加', nameEn: 'Jamaica',
-    flag: '/images/flags/jam.svg', tier: 4, group: 'C',
-    ratings: { attack: 62, defense: 48, midfield: 52 },
-    coachId: 'coach-JAM', coachStyle: '两翼齐飞',
+    id: 'HAI', name: '海地', nameEn: 'Haiti',
+    flag: '/images/flags/hai.svg', tier: 4, group: 'C',
+    ratings: { attack: 48, defense: 42, midfield: 45 },
+    coachId: 'coach-HAI', coachStyle: '防守反击',
   },
 
   // ═══════════════════════════════════════
@@ -247,10 +247,10 @@ export const allTeams: NationalTeam[] = [
     coachId: 'coach-SEN', coachStyle: '高位压迫',
   },
   {
-    id: 'PER', name: '秘鲁', nameEn: 'Peru',
-    flag: '/images/flags/per.svg', tier: 3, group: 'I',
-    ratings: { attack: 68, defense: 66, midfield: 67 },
-    coachId: 'coach-PER', coachStyle: '传控渗透',
+    id: 'IRQ', name: '伊拉克', nameEn: 'Iraq',
+    flag: '/images/flags/irq.svg', tier: 4, group: 'I',
+    ratings: { attack: 52, defense: 48, midfield: 50 },
+    coachId: 'coach-IRQ', coachStyle: '铁桶大巴',
   },
 
   // ═══════════════════════════════════════
@@ -297,16 +297,16 @@ export const allTeams: NationalTeam[] = [
     coachId: 'coach-POR', coachStyle: '高位压迫',
   },
   {
-    id: 'NGA', name: '尼日利亚', nameEn: 'Nigeria',
-    flag: '/images/flags/nga.svg', tier: 3, group: 'K',
-    ratings: { attack: 74, defense: 66, midfield: 70 },
-    coachId: 'coach-NGA', coachStyle: '两翼齐飞',
+    id: 'COD', name: '民主刚果', nameEn: 'DR Congo',
+    flag: '/images/flags/cod.svg', tier: 3, group: 'K',
+    ratings: { attack: 65, defense: 62, midfield: 63 },
+    coachId: 'coach-COD', coachStyle: '两翼齐飞',
   },
   {
-    id: 'UAE', name: '阿联酋', nameEn: 'United Arab Emirates',
-    flag: '/images/flags/uae.svg', tier: 4, group: 'K',
-    ratings: { attack: 60, defense: 52, midfield: 56 },
-    coachId: 'coach-UAE', coachStyle: '铁桶大巴',
+    id: 'UZB', name: '乌兹别克斯坦', nameEn: 'Uzbekistan',
+    flag: '/images/flags/uzb.svg', tier: 3, group: 'K',
+    ratings: { attack: 62, defense: 60, midfield: 64 },
+    coachId: 'coach-UZB', coachStyle: '传控渗透',
   },
 
   // ═══════════════════════════════════════

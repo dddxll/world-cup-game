@@ -214,17 +214,16 @@ BRA: {
     { id:'BRA-Militao', name:'米利唐', nameEn:'Eder Militao', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:85, positions:['CB','RB'], stats:{speed:80,shooting:42,passing:66,defending:86,physical:80} },
     { id:'BRA-Bremer', name:'布雷默', nameEn:'Bremer', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:84, positions:['CB'], stats:{speed:66,shooting:35,passing:58,defending:88,physical:84} },
     { id:'BRA-SilvaT', name:'蒂亚戈·席尔瓦', nameEn:'Thiago Silva', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:86, positions:['CB'], stats:{speed:66,shooting:35,passing:72,defending:90,physical:80} },
-    { id:'BRA-Carlos', name:'罗伯托·卡洛斯', nameEn:'Roberto Carlos', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:85, positions:['LB'], stats:{speed:90,shooting:68,passing:72,defending:78,physical:76} },
-    { id:'BRA-CarlosA', name:'卡洛斯·奥古斯托', nameEn:'Carlos Augusto', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:76, positions:['CB','LB'], stats:{speed:68,shooting:32,passing:58,defending:78,physical:76} },
+    { id:'BRA-GabrielM', name:'加布里埃尔·马加良斯', nameEn:'Gabriel Magalhães', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:83, positions:['CB'], stats:{speed:66,shooting:42,passing:64,defending:86,physical:82} },
+    { id:'BRA-Ibanez', name:'罗杰·伊巴涅斯', nameEn:'Roger Ibañez', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:80, positions:['CB'], stats:{speed:68,shooting:38,passing:60,defending:84,physical:80} },
   ],
   LB: [
-    { id:'BRA-Marcelo', name:'马塞洛', nameEn:'Marcelo', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:82, positions:['LB','LM'], stats:{speed:74,shooting:58,passing:78,defending:72,physical:70} },
     { id:'BRA-Lodi', name:'洛迪', nameEn:'Renan Lodi', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:79, positions:['LB','LM'], stats:{speed:82,shooting:45,passing:68,defending:76,physical:72} },
     { id:'BRA-Sandro', name:'桑德罗', nameEn:'Alex Sandro', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:81, positions:['LB','LWB'], stats:{speed:80,shooting:45,passing:68,defending:80,physical:76} },
+    { id:'BRA-DouglasSantos', name:'道格拉斯·桑托斯', nameEn:'Douglas Santos', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:80, positions:['LB','LM'], stats:{speed:82,shooting:48,passing:72,defending:78,physical:74} },
   ],
   RB: [
     { id:'BRA-Danilo', name:'达尼洛', nameEn:'Danilo', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:82, positions:['RB','LB'], stats:{speed:78,shooting:48,passing:68,defending:82,physical:76} },
-    { id:'BRA-Alves', name:'阿尔维斯', nameEn:'Dani Alves', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:82, positions:['RB'], stats:{speed:82,shooting:60,passing:82,defending:78,physical:70} },
   ],
   CDM: [
     { id:'BRA-Casemiro', name:'卡塞米罗', nameEn:'Casemiro', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:86, positions:['CDM','CM'], stats:{speed:58,shooting:62,passing:74,defending:90,physical:86} },
@@ -237,8 +236,6 @@ BRA: {
   ],
   CAM: [
     { id:'BRA-Neymar', name:'内马尔', nameEn:'Neymar Jr', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:89, positions:['LW','CAM'], stats:{speed:86,shooting:86,passing:84,defending:35,physical:62} },
-    { id:'BRA-Coutinho', name:'库蒂尼奥', nameEn:'Philippe Coutinho', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:81, positions:['CAM','LW'], stats:{speed:72,shooting:76,passing:80,defending:38,physical:55} },
-    { id:'BRA-Firmino', name:'菲尔米诺', nameEn:'Roberto Firmino', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:84, positions:['CAM','ST'], stats:{speed:72,shooting:80,passing:78,defending:48,physical:72} },
   ],
   LW: [
     { id:'BRA-ViniJr', name:'维尼修斯', nameEn:'Vinicius Junior', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:89, positions:['LW','ST'], stats:{speed:94,shooting:82,passing:78,defending:32,physical:68} },
@@ -247,12 +244,14 @@ BRA: {
   RW: [
     { id:'BRA-Raphinha', name:'拉菲尼亚', nameEn:'Raphinha', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:86, positions:['RW','LW'], stats:{speed:88,shooting:78,passing:80,defending:38,physical:66} },
     { id:'BRA-Rodrygo', name:'罗德里戈', nameEn:'Rodrygo', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:85, positions:['RW','LW'], stats:{speed:88,shooting:80,passing:74,defending:35,physical:62} },
+    { id:'BRA-LuizHenrique', name:'路易斯·恩里克', nameEn:'Luiz Henrique', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:80, positions:['RW','LW'], stats:{speed:90,shooting:72,passing:66,defending:35,physical:58} },
   ],
   ST: [
     { id:'BRA-Vinicius', name:'维尼修斯', nameEn:'Vinicius Junior', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:89, positions:['LW','ST'], stats:{speed:94,shooting:82,passing:78,defending:32,physical:68} },
-    { id:'BRA-Richarlison', name:'理查利森', nameEn:'Richarlison', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:82, positions:['ST','LW'], stats:{speed:78,shooting:80,passing:66,defending:35,physical:78} },
-    { id:'BRA-Jesus', name:'热苏斯', nameEn:'Gabriel Jesus', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:82, positions:['ST','LW'], stats:{speed:84,shooting:78,passing:72,defending:42,physical:72} },
     { id:'BRA-Endrick', name:'恩德里克', nameEn:'Endrick', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:78, positions:['ST'], stats:{speed:82,shooting:76,passing:58,defending:22,physical:68} },
+    { id:'BRA-Cunha', name:'马特乌斯·库尼亚', nameEn:'Matheus Cunha', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:82, positions:['ST','LW'], stats:{speed:82,shooting:80,passing:70,defending:38,physical:72} },
+    { id:'BRA-IgorThiago', name:'伊戈尔·蒂亚戈', nameEn:'Igor Thiago', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:77, positions:['ST'], stats:{speed:74,shooting:76,passing:55,defending:28,physical:78} },
+    { id:'BRA-Rayan', name:'拉扬', nameEn:'Rayan', nationality:'BRA', avatar:'/images/players/placeholder.png', rating:75, positions:['ST'], stats:{speed:78,shooting:74,passing:52,defending:25,physical:72} },
   ],
 },
 
@@ -518,7 +517,6 @@ ENG: {
   ],
   CB: [
     { id:'ENG-Stones', name:'斯通斯', nameEn:'John Stones', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:85, positions:['CB','CDM'], stats:{speed:68,shooting:42,passing:74,defending:86,physical:78} },
-    { id:'ENG-Maguire', name:'马圭尔', nameEn:'Harry Maguire', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:82, positions:['CB'], stats:{speed:55,shooting:52,passing:62,defending:84,physical:86} },
     { id:'ENG-Guehi', name:'格希', nameEn:'Marc Guehi', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:79, positions:['CB'], stats:{speed:66,shooting:30,passing:62,defending:82,physical:76} },
     { id:'ENG-Colwill', name:'科尔威尔', nameEn:'Levi Colwill', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:78, positions:['CB','LB'], stats:{speed:66,shooting:30,passing:64,defending:80,physical:76} },
   ],
@@ -541,7 +539,6 @@ ENG: {
   ],
   RW: [
     { id:'ENG-Saka', name:'萨卡', nameEn:'Bukayo Saka', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:86, positions:['RW','LM'], stats:{speed:84,shooting:76,passing:78,defending:55,physical:64} },
-    { id:'ENG-Palmer', name:'帕尔默', nameEn:'Cole Palmer', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:81, positions:['RW','CAM'], stats:{speed:74,shooting:76,passing:74,defending:42,physical:62} },
   ],
   ST: [
     { id:'ENG-Kane', name:'凯恩', nameEn:'Harry Kane', nationality:'ENG', avatar:'/images/players/placeholder.png', rating:90, positions:['ST'], stats:{speed:70,shooting:94,passing:82,defending:38,physical:82} },
@@ -558,8 +555,7 @@ ESP: {
   CB: [
     { id:'ESP-Laporte', name:'拉波尔特', nameEn:'Aymeric Laporte', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:85, positions:['CB','LB'], stats:{speed:66,shooting:42,passing:72,defending:86,physical:78} },
     { id:'ESP-LeNormand', name:'勒诺尔芒', nameEn:'Robin Le Normand', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:83, positions:['CB'], stats:{speed:64,shooting:32,passing:64,defending:85,physical:80} },
-    { id:'ESP-Nacho', name:'纳乔', nameEn:'Nacho', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:80, positions:['CB','LB'], stats:{speed:66,shooting:35,passing:62,defending:82,physical:76} },
-    { id:'ESP-Ramos', name:'拉莫斯', nameEn:'Sergio Ramos', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:85, positions:['CB'], stats:{speed:66,shooting:62,passing:72,defending:88,physical:84} },
+    { id:'ESP-Vivian', name:'维维安', nameEn:'Daniel Vivian', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:80, positions:['CB'], stats:{speed:62,shooting:32,passing:62,defending:84,physical:80} },
   ],
   LB: [
     { id:'ESP-Gaya', name:'加亚', nameEn:'Jose Gaya', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:82, positions:['LB'], stats:{speed:80,shooting:42,passing:70,defending:80,physical:74} },
@@ -567,8 +563,8 @@ ESP: {
     { id:'ESP-JordiAlba', name:'阿尔巴', nameEn:'Jordi Alba', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:84, positions:['LB','LM'], stats:{speed:86,shooting:52,passing:78,defending:78,physical:68} },
   ],
   RB: [
-    { id:'ESP-Carvajal', name:'卡瓦哈尔', nameEn:'Dani Carvajal', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:85, positions:['RB','LB'], stats:{speed:78,shooting:52,passing:72,defending:84,physical:76} },
     { id:'ESP-PedroPorro', name:'波罗', nameEn:'Pedro Porro', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:81, positions:['RB','RM'], stats:{speed:82,shooting:55,passing:70,defending:76,physical:72} },
+    { id:'ESP-NavarroJ', name:'纳瓦罗', nameEn:'Jesus Navas', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:80, positions:['RB','RW'], stats:{speed:84,shooting:58,passing:72,defending:74,physical:68} },
   ],
   CM: [
     { id:'ESP-Rodri', name:'罗德里', nameEn:'Rodri', nationality:'ESP', avatar:'/images/players/placeholder.png', rating:89, positions:['CDM','CM'], stats:{speed:62,shooting:65,passing:84,defending:88,physical:84} },
@@ -623,6 +619,7 @@ FRA: {
   ],
   RW: [
     { id:'FRA-Dembele', name:'登贝莱', nameEn:'Ousmane Dembele', nationality:'FRA', avatar:'/images/players/placeholder.png', rating:84, positions:['RW','LW'], stats:{speed:90,shooting:72,passing:76,defending:35,physical:58} },
+    { id:'FRA-Olise', name:'奥利塞', nameEn:'Michael Olise', nationality:'FRA', avatar:'/images/players/placeholder.png', rating:82, positions:['RW','CAM'], stats:{speed:80,shooting:72,passing:76,defending:35,physical:60} },
   ],
   ST: [
     { id:'FRA-Griezmann', name:'格列兹曼', nameEn:'Antoine Griezmann', nationality:'FRA', avatar:'/images/players/placeholder.png', rating:87, positions:['CAM','ST'], stats:{speed:76,shooting:86,passing:84,defending:48,physical:68} },
@@ -711,7 +708,6 @@ IRN: {
     { id:'IRN-Abedi', name:'阿贝迪', nameEn:'Amir Abedi', nationality:'IRN', avatar:'/images/players/placeholder.png', rating:73, positions:['GK'], stats:{speed:44,shooting:16,passing:40,defending:50,physical:56} },
   ],
   CB: [
-    { id:'IRN-Azmoun', name:'阿兹蒙', nameEn:'Sardar Azmoun', nationality:'IRN', avatar:'/images/players/placeholder.png', rating:82, positions:['ST','CAM'], stats:{speed:78,shooting:84,passing:66,defending:32,physical:72} },
     { id:'IRN-Kanaani', name:'卡纳尼', nameEn:'Hossein Kanaani', nationality:'IRN', avatar:'/images/players/placeholder.png', rating:76, positions:['CB'], stats:{speed:58,shooting:35,passing:58,defending:80,physical:78} },
     { id:'IRN-Pouraliganji', name:'普拉利甘吉', nameEn:'Morteza Pouraliganji', nationality:'IRN', avatar:'/images/players/placeholder.png', rating:75, positions:['CB'], stats:{speed:58,shooting:32,passing:55,defending:80,physical:78} },
   ],
@@ -734,27 +730,26 @@ IRN: {
   ],
 },
 
-JAM: {
+HAI: {
   GK: [
-    { id:'JAM-BlakeA', name:'布莱克', nameEn:'Andre Blake', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:74, positions:['GK'], stats:{speed:50,shooting:18,passing:42,defending:54,physical:60} },
-    { id:'JAM-MillerA', name:'米勒', nameEn:'Amal Miller', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:69, positions:['GK'], stats:{speed:44,shooting:14,passing:38,defending:48,physical:54} },
+    { id:'HAI-Placide', name:'普拉西德', nameEn:'Johny Placide', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:73, positions:['GK'], stats:{speed:44,shooting:16,passing:40,defending:52,physical:58} },
   ],
   CB: [
-    { id:'JAM-LoweD', name:'洛', nameEn:'Damion Lowe', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:72, positions:['CB','CDM'], stats:{speed:58,shooting:32,passing:52,defending:78,physical:78} },
-    { id:'JAM-HectorM', name:'赫克托', nameEn:'Michael Hector', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:73, positions:['CB'], stats:{speed:60,shooting:35,passing:58,defending:78,physical:76} },
-    { id:'JAM-Mariappa', name:'马里亚帕', nameEn:'Adrian Mariappa', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:72, positions:['CB'], stats:{speed:55,shooting:28,passing:55,defending:76,physical:74} },
+    { id:'HAI-Ade', name:'阿德', nameEn:'Ricardo Ade', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:69, positions:['CB'], stats:{speed:58,shooting:28,passing:48,defending:76,physical:74} },
+    { id:'HAI-Arcus', name:'阿库斯', nameEn:'Carlens Arcus', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:71, positions:['RB','CB'], stats:{speed:76,shooting:38,passing:55,defending:74,physical:72} },
   ],
   CM: [
-    { id:'JAM-ReidB', name:'里德', nameEn:'Bobby Reid', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:74, positions:['CAM','ST'], stats:{speed:68,shooting:72,passing:62,defending:42,physical:62} },
-    { id:'JAM-BaileyL', name:'贝利', nameEn:'Leon Bailey', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:81, positions:['LW','RW'], stats:{speed:92,shooting:74,passing:68,defending:35,physical:58} },
-    { id:'JAM-DanielJ', name:'丹尼尔', nameEn:'Javon Daniel', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:70, positions:['CM','CDM'], stats:{speed:62,shooting:48,passing:60,defending:64,physical:66} },
+    { id:'HAI-Alceus', name:'阿尔塞乌斯', nameEn:'Bryan Alceus', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:68, positions:['CM','CDM'], stats:{speed:60,shooting:48,passing:58,defending:64,physical:66} },
+    { id:'HAI-PierreL', name:'皮埃尔', nameEn:'Leverton Pierre', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:67, positions:['CM','CDM'], stats:{speed:58,shooting:45,passing:55,defending:62,physical:64} },
   ],
   LW: [
-    { id:'JAM-GrayD', name:'格雷', nameEn:'Demarai Gray', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:78, positions:['LW','RW'], stats:{speed:88,shooting:72,passing:64,defending:35,physical:58} },
+    { id:'HAI-Etienne', name:'埃蒂安', nameEn:'Derrick Etienne Jr.', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:72, positions:['LW','RW'], stats:{speed:84,shooting:65,passing:58,defending:32,physical:55} },
+    { id:'HAI-Picault', name:'皮考特', nameEn:'Fabrice Picault', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:70, positions:['LW','ST'], stats:{speed:82,shooting:62,passing:55,defending:28,physical:58} },
   ],
   ST: [
-    { id:'JAM-Nicholson', name:'尼科尔森', nameEn:'Shamar Nicholson', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:73, positions:['ST'], stats:{speed:76,shooting:74,passing:48,defending:25,physical:74} },
-    { id:'JAM-Organe', name:'奥甘', nameEn:'Michail Antonio', nationality:'JAM', avatar:'/images/players/placeholder.png', rating:77, positions:['ST','RW'], stats:{speed:84,shooting:76,passing:60,defending:32,physical:82} },
+    { id:'HAI-Nazon', name:'纳宗', nameEn:'Duckens Nazon', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:72, positions:['ST'], stats:{speed:76,shooting:72,passing:48,defending:25,physical:72} },
+    { id:'HAI-PierrotF', name:'皮埃罗', nameEn:'Frantzdy Pierrot', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:71, positions:['ST'], stats:{speed:70,shooting:70,passing:50,defending:28,physical:76} },
+    { id:'HAI-Prunier', name:'普鲁尼耶', nameEn:'Mondy Prunier', nationality:'HAI', avatar:'/images/players/placeholder.png', rating:68, positions:['ST'], stats:{speed:72,shooting:66,passing:44,defending:22,physical:70} },
   ],
 },
 
@@ -803,7 +798,6 @@ JPN: {
     { id:'JPN-KuboT', name:'久保建英', nameEn:'Takefusa Kubo', nationality:'JPN', avatar:'/images/players/placeholder.png', rating:79, positions:['RW','CAM'], stats:{speed:82,shooting:72,passing:72,defending:38,physical:55} },
   ],
   LW: [
-    { id:'JPN-Mitoma', name:'三笘薰', nameEn:'Kaoru Mitoma', nationality:'JPN', avatar:'/images/players/placeholder.png', rating:86, positions:['LW','RW'], stats:{speed:92,shooting:76,passing:74,defending:48,physical:62} },
     { id:'JPN-ItoJ', name:'伊东纯也', nameEn:'Junya Ito', nationality:'JPN', avatar:'/images/players/placeholder.png', rating:80, positions:['RW','LW'], stats:{speed:90,shooting:72,passing:68,defending:42,physical:58} },
   ],
   ST: [
@@ -993,36 +987,30 @@ NED: {
   ],
 },
 
-NGA: {
+COD: {
   GK: [
-    { id:'NGA-Uzoho', name:'乌佐霍', nameEn:'Francis Uzoho', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:76, positions:['GK'], stats:{speed:46,shooting:18,passing:44,defending:54,physical:60} },
-    { id:'NGA-OkoyeM', name:'奥科耶', nameEn:'Maduka Okoye', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:75, positions:['GK'], stats:{speed:44,shooting:16,passing:42,defending:52,physical:58} },
+    { id:'COD-Bertaud', name:'贝尔托', nameEn:'Dimitry Bertaud', nationality:'COD', avatar:'/images/players/placeholder.png', rating:74, positions:['GK'], stats:{speed:46,shooting:16,passing:42,defending:52,physical:58} },
   ],
   CB: [
-    { id:'NGA-EkongT', name:'埃孔', nameEn:'William Troost-Ekong', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:78, positions:['CB'], stats:{speed:60,shooting:38,passing:58,defending:84,physical:80} },
-    { id:'NGA-AjayiS', name:'阿贾伊', nameEn:'Semi Ajayi', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:76, positions:['CB','CDM'], stats:{speed:64,shooting:42,passing:60,defending:80,physical:78} },
-    { id:'NGA-BalogunL', name:'巴洛贡', nameEn:'Leon Balogun', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:75, positions:['CB'], stats:{speed:58,shooting:32,passing:55,defending:80,physical:80} },
+    { id:'COD-Mbemba', name:'姆本巴', nameEn:'Chancel Mbemba', nationality:'COD', avatar:'/images/players/placeholder.png', rating:80, positions:['CB'], stats:{speed:66,shooting:42,passing:62,defending:84,physical:82} },
+    { id:'COD-Kalulu', name:'卡卢卢', nameEn:'Gedeon Kalulu', nationality:'COD', avatar:'/images/players/placeholder.png', rating:73, positions:['CB','RB'], stats:{speed:74,shooting:32,passing:55,defending:78,physical:76} },
   ],
   LB: [
-    { id:'NGA-BasseyC', name:'巴西', nameEn:'Calvin Bassey', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:77, positions:['LB','CB'], stats:{speed:74,shooting:38,passing:62,defending:80,physical:80} },
+    { id:'COD-Masuaku', name:'马苏亚库', nameEn:'Arthur Masuaku', nationality:'COD', avatar:'/images/players/placeholder.png', rating:76, positions:['LB','LM'], stats:{speed:82,shooting:52,passing:68,defending:74,physical:72} },
   ],
   RB: [
-    { id:'NGA-AinaO', name:'艾纳', nameEn:'Ola Aina', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:78, positions:['RB','LB'], stats:{speed:82,shooting:48,passing:66,defending:78,physical:74} },
+    { id:'COD-WanBissaka', name:'万-比萨卡', nameEn:'Aaron Wan-Bissaka', nationality:'COD', avatar:'/images/players/placeholder.png', rating:80, positions:['RB','RWB'], stats:{speed:84,shooting:35,passing:62,defending:84,physical:76} },
   ],
   CM: [
-    { id:'NGA-Iwobi', name:'伊沃比', nameEn:'Alex Iwobi', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:80, positions:['CM','LW'], stats:{speed:72,shooting:62,passing:74,defending:58,physical:66} },
-    { id:'NGA-Ndidi', name:'恩迪迪', nameEn:'Wilfred Ndidi', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:83, positions:['CDM','CM'], stats:{speed:62,shooting:52,passing:68,defending:86,physical:84} },
-    { id:'NGA-Aribo', name:'阿里博', nameEn:'Joe Aribo', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:78, positions:['CM','CAM'], stats:{speed:68,shooting:62,passing:70,defending:62,physical:68} },
-    { id:'NGA-Onuachu', name:'奥努阿楚', nameEn:'Paul Onuachu', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:77, positions:['ST'], stats:{speed:55,shooting:80,passing:48,defending:30,physical:86} },
+    { id:'COD-Moutoussamy', name:'穆图萨米', nameEn:'Samuel Moutoussamy', nationality:'COD', avatar:'/images/players/placeholder.png', rating:74, positions:['CM','CDM'], stats:{speed:64,shooting:55,passing:66,defending:66,physical:68} },
+    { id:'COD-Kakuta', name:'卡库塔', nameEn:'Gael Kakuta', nationality:'COD', avatar:'/images/players/placeholder.png', rating:76, positions:['CAM','CM'], stats:{speed:72,shooting:68,passing:72,defending:42,physical:55} },
   ],
   LW: [
-    { id:'NGA-Chukwueze', name:'楚克韦泽', nameEn:'Samuel Chukwueze', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:81, positions:['RW','LW'], stats:{speed:90,shooting:74,passing:66,defending:35,physical:58} },
-    { id:'NGA-Lookman', name:'卢克曼', nameEn:'Ademola Lookman', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:84, positions:['LW','ST'], stats:{speed:84,shooting:78,passing:70,defending:42,physical:64} },
+    { id:'COD-Bongonda', name:'邦贡达', nameEn:'Theo Bongonda', nationality:'COD', avatar:'/images/players/placeholder.png', rating:76, positions:['LW','RW'], stats:{speed:86,shooting:72,passing:66,defending:35,physical:58} },
   ],
   ST: [
-    { id:'NGA-Osimhen', name:'奥斯梅恩', nameEn:'Victor Osimhen', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:88, positions:['ST'], stats:{speed:88,shooting:88,passing:62,defending:38,physical:84} },
-    { id:'NGA-Awoniyi', name:'阿沃尼伊', nameEn:'Taiwo Awoniyi', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:78, positions:['ST'], stats:{speed:82,shooting:78,passing:55,defending:30,physical:78} },
-    { id:'NGA-Moffi', name:'莫菲', nameEn:'Terem Moffi', nationality:'NGA', avatar:'/images/players/placeholder.png', rating:77, positions:['ST'], stats:{speed:80,shooting:78,passing:52,defending:28,physical:78} },
+    { id:'COD-Wissa', name:'维萨', nameEn:'Yoane Wissa', nationality:'COD', avatar:'/images/players/placeholder.png', rating:79, positions:['ST','LW'], stats:{speed:82,shooting:78,passing:62,defending:32,physical:72} },
+    { id:'COD-Bakambu', name:'巴坎布', nameEn:'Cedric Bakambu', nationality:'COD', avatar:'/images/players/placeholder.png', rating:78, positions:['ST'], stats:{speed:80,shooting:80,passing:58,defending:28,physical:76} },
   ],
 },
 
@@ -1124,32 +1112,29 @@ PAR: {
   ],
 },
 
-PER: {
+IRQ: {
   GK: [
-    { id:'PER-Gallese', name:'加莱塞', nameEn:'Pedro Gallese', nationality:'PER', avatar:'/images/players/placeholder.png', rating:81, positions:['GK'], stats:{speed:48,shooting:18,passing:46,defending:56,physical:62} },
-    { id:'PER-Caceda', name:'卡塞达', nameEn:'Carlos Caceda', nationality:'PER', avatar:'/images/players/placeholder.png', rating:73, positions:['GK'], stats:{speed:44,shooting:16,passing:42,defending:52,physical:58} },
+    { id:'IRQ-HassanJ', name:'贾拉勒·哈桑', nameEn:'Jalal Hassan', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:76, positions:['GK'], stats:{speed:46,shooting:18,passing:44,defending:54,physical:60} },
   ],
   CB: [
-    { id:'PER-Abram', name:'阿布拉姆', nameEn:'Luis Abram', nationality:'PER', avatar:'/images/players/placeholder.png', rating:77, positions:['CB'], stats:{speed:60,shooting:35,passing:60,defending:82,physical:78} },
-    { id:'PER-Callens', name:'卡朗斯', nameEn:'Alexander Callens', nationality:'PER', avatar:'/images/players/placeholder.png', rating:78, positions:['CB','LB'], stats:{speed:62,shooting:35,passing:62,defending:82,physical:78} },
-    { id:'PER-RamosC', name:'拉莫斯', nameEn:'Christian Ramos', nationality:'PER', avatar:'/images/players/placeholder.png', rating:75, positions:['CB'], stats:{speed:58,shooting:32,passing:55,defending:80,physical:76} },
+    { id:'IRQ-Sulaka', name:'苏拉卡', nameEn:'Rebin Sulaka', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:72, positions:['CB'], stats:{speed:58,shooting:28,passing:52,defending:78,physical:76} },
+    { id:'IRQ-YahyaA', name:'叶海亚', nameEn:'Ahmed Yahya', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:71, positions:['CB'], stats:{speed:56,shooting:30,passing:50,defending:76,physical:74} },
   ],
   LB: [
-    { id:'PER-LopezM', name:'洛佩斯', nameEn:'Marcos Lopez', nationality:'PER', avatar:'/images/players/placeholder.png', rating:74, positions:['LB','LM'], stats:{speed:78,shooting:42,passing:62,defending:76,physical:72} },
+    { id:'IRQ-AliHussein', name:'侯赛因·阿里', nameEn:'Hussein Ali', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:72, positions:['LB','LM'], stats:{speed:78,shooting:42,passing:58,defending:74,physical:70} },
   ],
   CM: [
-    { id:'PER-TapiaR', name:'塔皮亚', nameEn:'Renato Tapia', nationality:'PER', avatar:'/images/players/placeholder.png', rating:79, positions:['CDM','CM'], stats:{speed:60,shooting:48,passing:68,defending:82,physical:80} },
-    { id:'PER-Yotun', name:'约通', nameEn:'Yoshimar Yotun', nationality:'PER', avatar:'/images/players/placeholder.png', rating:78, positions:['CM','LM'], stats:{speed:64,shooting:62,passing:70,defending:65,physical:68} },
-    { id:'PER-PenaS', name:'佩尼亚', nameEn:'Sergio Pena', nationality:'PER', avatar:'/images/players/placeholder.png', rating:74, positions:['CM','CAM'], stats:{speed:66,shooting:58,passing:66,defending:58,physical:62} },
+    { id:'IRQ-IqbalZ', name:'齐达内·伊克巴尔', nameEn:'Zidane Iqbal', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:70, positions:['CM','CAM'], stats:{speed:64,shooting:55,passing:66,defending:52,physical:58} },
+    { id:'IRQ-AlAmmari', name:'阿马里', nameEn:'Amir Al-Ammari', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:71, positions:['CM','CDM'], stats:{speed:62,shooting:50,passing:64,defending:65,physical:66} },
+    { id:'IRQ-Turgunboev', name:'图尔贡博耶夫', nameEn:'Azizbek Turgunboev', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:70, positions:['CM','CDM'], stats:{speed:60,shooting:52,passing:62,defending:62,physical:64} },
   ],
   CAM: [
-    { id:'PER-Cueva', name:'奎瓦', nameEn:'Christian Cueva', nationality:'PER', avatar:'/images/players/placeholder.png', rating:79, positions:['CAM','CM'], stats:{speed:68,shooting:68,passing:76,defending:42,physical:58} },
-    { id:'PER-GonzalezP', name:'冈萨雷斯', nameEn:'Paolo Guerrero', nationality:'PER', avatar:'/images/players/placeholder.png', rating:79, positions:['ST'], stats:{speed:66,shooting:80,passing:62,defending:30,physical:78} },
+    { id:'IRQ-Bayesh', name:'巴耶什', nameEn:'Ibrahim Bayesh', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:74, positions:['CAM','RW'], stats:{speed:72,shooting:65,passing:68,defending:38,physical:58} },
   ],
   ST: [
-    { id:'PER-Lapadula', name:'拉帕杜拉', nameEn:'Gianluca Lapadula', nationality:'PER', avatar:'/images/players/placeholder.png', rating:77, positions:['ST'], stats:{speed:72,shooting:78,passing:58,defending:35,physical:74} },
-    { id:'PER-Ruidiaz', name:'鲁伊迪亚斯', nameEn:'Raul Ruidiaz', nationality:'PER', avatar:'/images/players/placeholder.png', rating:75, positions:['ST'], stats:{speed:76,shooting:78,passing:55,defending:28,physical:68} },
-    { id:'PER-Carrillo', name:'卡里略', nameEn:'Andre Carrillo', nationality:'PER', avatar:'/images/players/placeholder.png', rating:76, positions:['RW','ST'], stats:{speed:82,shooting:68,passing:64,defending:42,physical:62} },
+    { id:'IRQ-HusseinA', name:'艾曼·侯赛因', nameEn:'Aymen Hussein', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:76, positions:['ST'], stats:{speed:72,shooting:78,passing:55,defending:28,physical:76} },
+    { id:'IRQ-AlHamadi', name:'哈马迪', nameEn:'Ali Al-Hamadi', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:73, positions:['ST','LW'], stats:{speed:78,shooting:72,passing:55,defending:28,physical:70} },
+    { id:'IRQ-AliMohanad', name:'穆哈纳德·阿里', nameEn:'Mohanad Ali', nationality:'IRQ', avatar:'/images/players/placeholder.png', rating:72, positions:['ST'], stats:{speed:74,shooting:72,passing:48,defending:25,physical:72} },
   ],
 },
 
@@ -1430,23 +1415,30 @@ TUR: {
   ],
 },
 
-UAE: {
+UZB: {
   GK: [
-    { id:'UAE-EisaK', name:'伊萨', nameEn:'Khalid Eisa', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:73, positions:['GK'], stats:{speed:44,shooting:16,passing:40,defending:50,physical:56} },
+    { id:'UZB-Yusupov', name:'尤苏波夫', nameEn:'Utkir Yusupov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:75, positions:['GK'], stats:{speed:46,shooting:18,passing:44,defending:54,physical:60} },
   ],
   CB: [
-    { id:'UAE-AlHammadi', name:'哈马迪', nameEn:'Khalifa Al-Hammadi', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:72, positions:['CB'], stats:{speed:56,shooting:28,passing:52,defending:76,physical:74} },
-    { id:'UAE-Salmeen', name:'萨勒明', nameEn:'Walied Salmeen', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:71, positions:['CB','CDM'], stats:{speed:58,shooting:30,passing:55,defending:74,physical:74} },
+    { id:'UZB-Khusanov', name:'胡萨诺夫', nameEn:'Abdukodir Khusanov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:78, positions:['CB','RB'], stats:{speed:72,shooting:32,passing:58,defending:82,physical:80} },
+    { id:'UZB-Ashurmatov', name:'阿舒尔马托夫', nameEn:'Rustam Ashurmatov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:73, positions:['CB'], stats:{speed:58,shooting:30,passing:55,defending:78,physical:76} },
+  ],
+  RB: [
+    { id:'UZB-Alijonov', name:'阿利约诺夫', nameEn:'Khojiakbar Alijonov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:72, positions:['RB','RM'], stats:{speed:80,shooting:42,passing:60,defending:74,physical:72} },
   ],
   CM: [
-    { id:'UAE-Mabkhout', name:'马布库特', nameEn:'Ali Mabkhout', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:78, positions:['ST','LW'], stats:{speed:82,shooting:80,passing:62,defending:28,physical:68} },
-    { id:'UAE-AlZaabi', name:'扎阿比', nameEn:'Zayed Al-Zaabi', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:70, positions:['CM','CAM'], stats:{speed:62,shooting:52,passing:60,defending:48,physical:58} },
+    { id:'UZB-Shukurov', name:'舒库罗夫', nameEn:'Otabek Shukurov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:76, positions:['CM','CDM'], stats:{speed:64,shooting:62,passing:70,defending:70,physical:72} },
+    { id:'UZB-TurgunboevU', name:'图尔贡博耶夫', nameEn:'Azizbek Turgunboev', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:71, positions:['CM','CDM'], stats:{speed:60,shooting:52,passing:64,defending:64,physical:66} },
+  ],
+  CAM: [
+    { id:'UZB-Fayzullaev', name:'法伊祖拉耶夫', nameEn:'Abbosbek Fayzullaev', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:74, positions:['CAM','LW'], stats:{speed:78,shooting:65,passing:70,defending:35,physical:55} },
   ],
   LW: [
-    { id:'UAE-CaioL', name:'卡约', nameEn:'Caio Lucas', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:74, positions:['LW','RW'], stats:{speed:84,shooting:68,passing:62,defending:32,physical:55} },
+    { id:'UZB-Masharipov', name:'马沙里波夫', nameEn:'Jaloliddin Masharipov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:76, positions:['LW','RW'], stats:{speed:82,shooting:72,passing:70,defending:38,physical:62} },
   ],
   ST: [
-    { id:'UAE-Taglian', name:'塔利安', nameEn:'Fabio de Lima', nationality:'UAE', avatar:'/images/players/placeholder.png', rating:73, positions:['ST'], stats:{speed:76,shooting:72,passing:55,defending:25,physical:68} },
+    { id:'UZB-Shomurodov', name:'绍穆罗多夫', nameEn:'Eldor Shomurodov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:77, positions:['ST'], stats:{speed:76,shooting:78,passing:60,defending:28,physical:74} },
+    { id:'UZB-Abdikholikov', name:'阿布迪霍利科夫', nameEn:'Bobur Abdikholikov', nationality:'UZB', avatar:'/images/players/placeholder.png', rating:72, positions:['ST'], stats:{speed:74,shooting:74,passing:48,defending:25,physical:72} },
   ],
 },
 

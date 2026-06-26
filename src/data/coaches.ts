@@ -69,11 +69,11 @@ export const allCoaches: Coach[] = [
   // Group C
   // ═══════════════════════════════════════
   {
-    id: 'coach-BRA', name: '多里瓦尔·儒尼奥尔', nameEn: 'Dorival Júnior',
-    nationality: '巴西', avatar: '/images/coaches/coach-BRA.png',
-    style: '两翼齐飞', att: 18, def: 12, adp: 14,
-    preferredFormations: ['4-3-3', '4-2-3-1', '4-4-2'],
-    description: '桑巴攻势足球传人，边路进攻赏心悦目',
+    id: 'coach-BRA', name: '卡洛·安切洛蒂', nameEn: 'Carlo Ancelotti',
+    nationality: '意大利', avatar: '/images/coaches/coach-BRA.png',
+    style: '传控渗透', att: 18, def: 14, adp: 17,
+    preferredFormations: ['4-3-3', '4-2-3-1', '4-3-2-1'],
+    description: '冠军教头，战术大师，五欧冠得主',
   },
   {
     id: 'coach-MAR', name: '瓦利德·雷格拉吉', nameEn: 'Walid Regragui',
@@ -90,22 +90,22 @@ export const allCoaches: Coach[] = [
     description: '硬朗苏格兰风格代表，强调身体对抗',
   },
   {
-    id: 'coach-JAM', name: '海米尔·哈格里姆松', nameEn: 'Heimir Hallgrímsson',
-    nationality: '冰岛', avatar: '/images/coaches/coach-JAM.png',
-    style: '两翼齐飞', att: 13, def: 10, adp: 12,
-    preferredFormations: ['4-4-2', '4-3-3'],
-    description: '冰岛功勋教头，擅用边路速度冲击对手',
+    id: 'coach-HAI', name: '加布里埃尔·卡尔德隆', nameEn: 'Gabriel Calderón',
+    nationality: '阿根廷', avatar: '/images/coaches/coach-HAI.png',
+    style: '防守反击', att: 7, def: 13, adp: 10,
+    preferredFormations: ['4-4-2', '5-3-2', '4-2-3-1'],
+    description: '阿根廷老帅，率海地首闯世界杯的奇迹缔造者',
   },
 
   // ═══════════════════════════════════════
   // Group D
   // ═══════════════════════════════════════
   {
-    id: 'coach-USA', name: '格雷格·贝尔哈特', nameEn: 'Gregg Berhalter',
-    nationality: '美国', avatar: '/images/coaches/coach-USA.png',
-    style: '高位压迫', att: 14, def: 12, adp: 13,
-    preferredFormations: ['4-3-3', '4-2-3-1'],
-    description: '美式工业化足球代表，用高位逼抢弥补技术差距',
+    id: 'coach-USA', name: '毛里西奥·波切蒂诺', nameEn: 'Mauricio Pochettino',
+    nationality: '阿根廷', avatar: '/images/coaches/coach-USA.png',
+    style: '高位压迫', att: 17, def: 13, adp: 16,
+    preferredFormations: ['4-3-3', '4-2-3-1', '4-2-2-2'],
+    description: '阿根廷名帅，高压逼抢与年轻化改造大师',
   },
   {
     id: 'coach-PAR', name: '丹尼尔·加内罗', nameEn: 'Daniel Garnero',
@@ -179,11 +179,11 @@ export const allCoaches: Coach[] = [
     description: '日本足球传控哲学践行者，善于临场变招',
   },
   {
-    id: 'coach-SWE', name: '容·达尔·托马森', nameEn: 'Jon Dahl Tomasson',
-    nationality: '丹麦', avatar: '/images/coaches/coach-SWE.png',
-    style: '铁桶大巴', att: 10, def: 16, adp: 14,
-    preferredFormations: ['4-4-2', '4-2-3-1', '5-3-2'],
-    description: '北欧实用主义，防守组织严密著称',
+    id: 'coach-SWE', name: '格雷厄姆·波特', nameEn: 'Graham Potter',
+    nationality: '英格兰', avatar: '/images/coaches/coach-SWE.png',
+    style: '传控渗透', att: 14, def: 13, adp: 16,
+    preferredFormations: ['4-3-3', '3-4-3', '4-2-3-1'],
+    description: '英格兰学院派教头，战术多变且善于调教技术型球队',
   },
   {
     id: 'coach-TUN', name: '贾莱尔·卡德里', nameEn: 'Jalel Kadri',
@@ -282,11 +282,11 @@ export const allCoaches: Coach[] = [
     description: '特兰加雄狮领袖，让非洲力量与高压战术融合',
   },
   {
-    id: 'coach-PER', name: '豪尔赫·福萨蒂', nameEn: 'Jorge Fossati',
-    nationality: '乌拉圭', avatar: '/images/coaches/coach-PER.png',
-    style: '传控渗透', att: 12, def: 14, adp: 13,
-    preferredFormations: ['4-2-3-1', '3-5-2', '4-3-3'],
-    description: '南美老帅，技术型传控体系深得人心',
+    id: 'coach-IRQ', name: '赫苏斯·卡萨斯', nameEn: 'Jesús Casas',
+    nationality: '西班牙', avatar: '/images/coaches/coach-IRQ.png',
+    style: '铁桶大巴', att: 9, def: 15, adp: 12,
+    preferredFormations: ['4-4-2', '5-3-2', '4-2-3-1'],
+    description: '西班牙教头，以防守组织见长，带领美索不达米亚雄狮出征',
   },
 
   // ═══════════════════════════════════════
@@ -339,18 +339,18 @@ export const allCoaches: Coach[] = [
     description: '攻势足球信徒，将高压传控植入葡萄牙',
   },
   {
-    id: 'coach-NGA', name: '何塞·佩塞罗', nameEn: 'José Peseiro',
-    nationality: '葡萄牙', avatar: '/images/coaches/coach-NGA.png',
-    style: '两翼齐飞', att: 14, def: 11, adp: 12,
+    id: 'coach-COD', name: '塞巴斯蒂安·德萨布雷', nameEn: 'Sébastien Desabre',
+    nationality: '法国', avatar: '/images/coaches/coach-COD.png',
+    style: '两翼齐飞', att: 12, def: 11, adp: 13,
     preferredFormations: ['4-3-3', '4-2-3-1', '4-4-2'],
-    description: '非洲雄鹰的技术流指挥官，边路速度为核心武器',
+    description: '法国教头，充满激情的攻势足球，激活刚果豹群进攻天赋',
   },
   {
-    id: 'coach-UAE', name: '保罗·本托', nameEn: 'Paulo Bento',
-    nationality: '葡萄牙', avatar: '/images/coaches/coach-UAE.png',
-    style: '铁桶大巴', att: 10, def: 16, adp: 14,
-    preferredFormations: ['4-4-2', '4-2-3-1', '4-1-4-1'],
-    description: '葡萄牙老帅经验丰富，稳固防守立命之本',
+    id: 'coach-UZB', name: '法比奥·卡纳瓦罗', nameEn: 'Fabio Cannavaro',
+    nationality: '意大利', avatar: '/images/coaches/coach-UZB.png',
+    style: '传控渗透', att: 13, def: 16, adp: 15,
+    preferredFormations: ['4-3-3', '4-2-3-1', '4-4-2'],
+    description: '金球后卫转任教头，将意大利防守基因注入中亚白狼',
   },
 
   // ═══════════════════════════════════════
