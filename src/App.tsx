@@ -3,6 +3,8 @@ import HomePage from '@/pages/HomePage'
 import CreateTeamPage from '@/pages/CreateTeamPage'
 import CoachPage from '@/pages/CoachPage'
 import FormationPage from '@/pages/FormationPage'
+import SquadPage from '@/pages/SquadPage'
+import BenchPage from '@/pages/BenchPage'
 
 export default function App() {
   return (
@@ -12,6 +14,8 @@ export default function App() {
         <Route path="/create" element={<CreateTeamPage />} />
         <Route path="/coach" element={<CoachPage />} />
         <Route path="/formation" element={<FormationPage />} />
+        <Route path="/squad" element={<SquadPage />} />
+        <Route path="/squad-bench" element={<BenchPage />} />
       </Routes>
     </div>
   )
