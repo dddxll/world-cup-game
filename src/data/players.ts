@@ -1431,6 +1431,158 @@ UKR: {
   ],
 },
 
+HUN: {
+  GK: [
+    { id:'HUN-Gulasci', name:'古拉西奇', nameEn:'Peter Gulacsi', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:82, positions:['GK'], stats:{speed:48,shooting:18,passing:48,defending:58,physical:64} },
+    { id:'HUN-Dibusz', name:'迪布斯', nameEn:'Denes Dibusz', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:78, positions:['GK'], stats:{speed:46,shooting:18,passing:44,defending:56,physical:62} },
+  ],
+  CB: [
+    { id:'HUN-SzalaiA', name:'A·绍洛伊', nameEn:'Attila Szalai', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:77, positions:['CB'], stats:{speed:64,shooting:35,passing:60,defending:80,physical:80} },
+    { id:'HUN-OrbanW', name:'奥尔班', nameEn:'Willi Orban', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:79, positions:['CB'], stats:{speed:62,shooting:42,passing:62,defending:82,physical:82} },
+    { id:'HUN-LangA', name:'朗', nameEn:'Adam Lang', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:73, positions:['CB'], stats:{speed:60,shooting:30,passing:55,defending:78,physical:76} },
+  ],
+  LB: [
+    { id:'HUN-Kerkez', name:'凯尔凯兹', nameEn:'Milos Kerkez', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:76, positions:['LB','LM'], stats:{speed:82,shooting:42,passing:64,defending:76,physical:72} },
+  ],
+  RB: [
+    { id:'HUN-Nego', name:'内戈', nameEn:'Loic Nego', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:74, positions:['RB','RM'], stats:{speed:80,shooting:45,passing:62,defending:74,physical:72} },
+  ],
+  CM: [
+    { id:'HUN-Szoboszlai', name:'索博斯洛伊', nameEn:'Dominik Szoboszlai', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:85, positions:['CAM','CM'], stats:{speed:78,shooting:80,passing:82,defending:52,physical:66} },
+    { id:'HUN-Schafer', name:'舍费尔', nameEn:'Andras Schafer', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:76, positions:['CM','CDM'], stats:{speed:66,shooting:58,passing:68,defending:68,physical:68} },
+    { id:'HUN-NagyA', name:'A·纳吉', nameEn:'Adam Nagy', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:74, positions:['CDM','CM'], stats:{speed:58,shooting:52,passing:64,defending:72,physical:74} },
+    { id:'HUN-StylesC', name:'斯泰尔斯', nameEn:'Callum Styles', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:72, positions:['CM','LM'], stats:{speed:64,shooting:55,passing:64,defending:58,physical:62} },
+  ],
+  LW: [
+    { id:'HUN-Sallai', name:'绍洛伊(锋)', nameEn:'Roland Sallai', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:78, positions:['LW','RW'], stats:{speed:82,shooting:72,passing:66,defending:42,physical:64} },
+    { id:'HUN-VargaK', name:'瓦尔加', nameEn:'Kevin Varga', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:73, positions:['LW','RW'], stats:{speed:84,shooting:65,passing:60,defending:35,physical:58} },
+  ],
+  ST: [
+    { id:'HUN-VargaB', name:'B·瓦尔加', nameEn:'Barnabas Varga', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:75, positions:['ST'], stats:{speed:70,shooting:76,passing:55,defending:28,physical:74} },
+    { id:'HUN-AdamM', name:'亚当', nameEn:'Martin Adam', nationality:'HUN', avatar:'/images/players/placeholder.png', rating:73, positions:['ST'], stats:{speed:60,shooting:74,passing:50,defending:28,physical:82} },
+  ],
+},
+
+SRB: {
+  GK: [
+    { id:'SRB-Rajkovic', name:'拉伊科维奇', nameEn:'Predrag Rajkovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:80, positions:['GK'], stats:{speed:48,shooting:18,passing:46,defending:58,physical:62} },
+    { id:'SRB-MilinkovicS', name:'米林科维奇-萨维奇', nameEn:'Vanja Milinkovic-Savic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:78, positions:['GK'], stats:{speed:46,shooting:18,passing:44,defending:56,physical:62} },
+  ],
+  CB: [
+    { id:'SRB-Milenkovic', name:'米伦科维奇', nameEn:'Nikola Milenkovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:82, positions:['CB'], stats:{speed:64,shooting:38,passing:62,defending:86,physical:84} },
+    { id:'SRB-PavlovicS', name:'帕夫洛维奇', nameEn:'Strahinja Pavlovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:79, positions:['CB','LB'], stats:{speed:66,shooting:35,passing:60,defending:82,physical:82} },
+    { id:'SRB-Veljkovic', name:'韦利科维奇', nameEn:'Milos Veljkovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:77, positions:['CB','CDM'], stats:{speed:60,shooting:35,passing:62,defending:80,physical:80} },
+    { id:'SRB-ErlicS', name:'埃尔利奇', nameEn:'Strahinja Erakovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:75, positions:['CB','RB'], stats:{speed:66,shooting:32,passing:58,defending:80,physical:78} },
+  ],
+  LB: [
+    { id:'SRB-KosticF', name:'科斯蒂奇', nameEn:'Filip Kostic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:82, positions:['LM','LW'], stats:{speed:86,shooting:68,passing:78,defending:55,physical:70} },
+  ],
+  RB: [
+    { id:'SRB-ZivkovicA', name:'日夫科维奇', nameEn:'Andrija Zivkovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:77, positions:['RW','RB'], stats:{speed:82,shooting:68,passing:66,defending:52,physical:60} },
+  ],
+  CM: [
+    { id:'SRB-MilinkovicSMS', name:'S·米林科维奇', nameEn:'Sergej Milinkovic-Savic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:87, positions:['CM','CAM'], stats:{speed:72,shooting:78,passing:80,defending:72,physical:84} },
+    { id:'SRB-LukicS', name:'卢基奇', nameEn:'Sasa Lukic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:78, positions:['CM','CDM'], stats:{speed:62,shooting:58,passing:68,defending:74,physical:74} },
+    { id:'SRB-Gudelj', name:'古德利', nameEn:'Nemanja Gudelj', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:77, positions:['CDM','CB'], stats:{speed:58,shooting:55,passing:70,defending:78,physical:78} },
+    { id:'SRB-GrujicM', name:'格鲁伊奇', nameEn:'Marko Grujic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:75, positions:['CM','CDM'], stats:{speed:62,shooting:58,passing:66,defending:68,physical:72} },
+    { id:'SRB-IlicI', name:'伊利奇', nameEn:'Ivan Ilic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:76, positions:['CM','CDM'], stats:{speed:66,shooting:58,passing:68,defending:62,physical:64} },
+  ],
+  LW: [
+    { id:'SRB-Tadic', name:'塔迪奇', nameEn:'Dusan Tadic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:85, positions:['LW','CAM'], stats:{speed:72,shooting:80,passing:86,defending:42,physical:64} },
+  ],
+  ST: [
+    { id:'SRB-MitrovicA', name:'米特罗维奇', nameEn:'Aleksandar Mitrovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:84, positions:['ST'], stats:{speed:68,shooting:86,passing:62,defending:30,physical:84} },
+    { id:'SRB-Vlahovic', name:'弗拉霍维奇', nameEn:'Dusan Vlahovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:83, positions:['ST'], stats:{speed:76,shooting:84,passing:62,defending:32,physical:78} },
+    { id:'SRB-JovicL', name:'约维奇', nameEn:'Luka Jovic', nationality:'SRB', avatar:'/images/players/placeholder.png', rating:79, positions:['ST'], stats:{speed:74,shooting:80,passing:60,defending:28,physical:68} },
+  ],
+},
+
+RUS: {
+  GK: [
+    { id:'RUS-Safonov', name:'萨福诺夫', nameEn:'Matvey Safonov', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:78, positions:['GK'], stats:{speed:46,shooting:18,passing:44,defending:56,physical:62} },
+  ],
+  CB: [
+    { id:'RUS-Diveev', name:'迪韦耶夫', nameEn:'Igor Diveev', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:77, positions:['CB'], stats:{speed:62,shooting:35,passing:60,defending:82,physical:80} },
+    { id:'RUS-Osipenko', name:'奥西片科', nameEn:'Maksim Osipenko', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:75, positions:['CB'], stats:{speed:60,shooting:32,passing:58,defending:80,physical:78} },
+  ],
+  CM: [
+    { id:'RUS-MiranchukA', name:'A·米兰丘克', nameEn:'Aleksei Miranchuk', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:80, positions:['CAM','CM'], stats:{speed:68,shooting:72,passing:76,defending:48,physical:60} },
+    { id:'RUS-Barrios', name:'巴里奥斯', nameEn:'Wilmar Barrios', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:78, positions:['CDM','CM'], stats:{speed:62,shooting:52,passing:66,defending:80,physical:78} },
+    { id:'RUS-Golovin', name:'戈洛温', nameEn:'Aleksandr Golovin', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:82, positions:['CM','CAM'], stats:{speed:74,shooting:68,passing:78,defending:55,physical:62} },
+  ],
+  LW: [
+    { id:'RUS-Mostovoy', name:'莫斯托沃伊', nameEn:'Andrei Mostovoy', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:74, positions:['LW','RW'], stats:{speed:82,shooting:65,passing:62,defending:35,physical:58} },
+  ],
+  ST: [
+    { id:'RUS-Sobolev', name:'索博列夫', nameEn:'Aleksandr Sobolev', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:78, positions:['ST'], stats:{speed:72,shooting:78,passing:55,defending:28,physical:80} },
+    { id:'RUS-Tyukavin', name:'秋卡温', nameEn:'Konstantin Tyukavin', nationality:'RUS', avatar:'/images/players/placeholder.png', rating:76, positions:['ST'], stats:{speed:78,shooting:76,passing:58,defending:25,physical:70} },
+  ],
+},
+
+
+SVK: {
+  GK: [
+    { id:'SVK-Dubravka', name:'杜布拉夫卡', nameEn:'Martin Dubravka', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:81, positions:['GK'], stats:{speed:46,shooting:18,passing:46,defending:58,physical:64} },
+  ],
+  CB: [
+    { id:'SVK-Skriniar', name:'什克里尼亚尔', nameEn:'Milan Skriniar', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:84, positions:['CB'], stats:{speed:66,shooting:42,passing:64,defending:88,physical:84} },
+    { id:'SVK-Vavro', name:'瓦夫罗', nameEn:'Denis Vavro', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:75, positions:['CB'], stats:{speed:62,shooting:32,passing:58,defending:80,physical:78} },
+  ],
+  CM: [
+    { id:'SVK-Lobotka', name:'洛博特卡', nameEn:'Stanislav Lobotka', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:83, positions:['CDM','CM'], stats:{speed:66,shooting:48,passing:78,defending:78,physical:68} },
+    { id:'SVK-Hamsik', name:'哈姆西克', nameEn:'Marek Hamsik', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:82, positions:['CAM','CM'], stats:{speed:66,shooting:76,passing:80,defending:55,physical:66} },
+    { id:'SVK-Kucka', name:'库茨卡', nameEn:'Juraj Kucka', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:77, positions:['CM','CDM'], stats:{speed:62,shooting:62,passing:66,defending:72,physical:78} },
+  ],
+  LW: [
+    { id:'SVK-MakR', name:'马克', nameEn:'Robert Mak', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:74, positions:['LW','RW'], stats:{speed:84,shooting:68,passing:62,defending:32,physical:58} },
+  ],
+  ST: [
+    { id:'SVK-Bozhenik', name:'博热尼克', nameEn:'Robert Bozenik', nationality:'SVK', avatar:'/images/players/placeholder.png', rating:74, positions:['ST'], stats:{speed:72,shooting:74,passing:52,defending:25,physical:74} },
+  ],
+},
+
+SVN: {
+  GK: [
+    { id:'SVN-Obllak', name:'奥布拉克', nameEn:'Jan Oblak', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:88, positions:['GK'], stats:{speed:50,shooting:20,passing:50,defending:62,physical:68} },
+  ],
+  CB: [
+    { id:'SVN-Bijol', name:'比约尔', nameEn:'Jaka Bijol', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:78, positions:['CB','CDM'], stats:{speed:62,shooting:35,passing:62,defending:82,physical:80} },
+    { id:'SVN-StojanovicP', name:'斯托扬诺维奇', nameEn:'Petar Stojanovic', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:76, positions:['RB','CB'], stats:{speed:80,shooting:42,passing:62,defending:76,physical:74} },
+  ],
+  CM: [
+    { id:'SVN-Cerin', name:'切林', nameEn:'Adam Gnezda Cerin', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:76, positions:['CM','CDM'], stats:{speed:64,shooting:55,passing:68,defending:66,physical:66} },
+    { id:'SVN-Mlakar', name:'姆拉卡', nameEn:'Jan Mlakar', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:73, positions:['LW','ST'], stats:{speed:78,shooting:68,passing:58,defending:30,physical:62} },
+    { id:'SVN-Elsnik', name:'埃尔什尼克', nameEn:'Timi Elsnik', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:75, positions:['CM','CAM'], stats:{speed:66,shooting:62,passing:66,defending:52,physical:60} },
+  ],
+  LW: [
+    { id:'SVN-StojanovicL', name:'斯托扬诺维奇(锋)', nameEn:'Luka Stojanovic', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:72, positions:['LW','RW'], stats:{speed:80,shooting:62,passing:60,defending:32,physical:55} },
+  ],
+  ST: [
+    { id:'SVN-Sesko', name:'谢什科', nameEn:'Benjamin Sesko', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:84, positions:['ST'], stats:{speed:84,shooting:84,passing:62,defending:38,physical:82} },
+    { id:'SVN-Sporar', name:'什波拉尔', nameEn:'Andraz Sporar', nationality:'SVN', avatar:'/images/players/placeholder.png', rating:76, positions:['ST'], stats:{speed:74,shooting:76,passing:55,defending:28,physical:74} },
+  ],
+},
+
+ISR: {
+  GK: [
+    { id:'ISR-GlazerO', name:'格拉泽', nameEn:'Omer Glazer', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:73, positions:['GK'], stats:{speed:44,shooting:16,passing:42,defending:52,physical:58} },
+  ],
+  CB: [
+    { id:'ISR-Goldberg', name:'戈德堡', nameEn:'Sean Goldberg', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:72, positions:['CB'], stats:{speed:58,shooting:28,passing:55,defending:78,physical:76} },
+  ],
+  CM: [
+    { id:'ISR-Pero', name:'佩罗', nameEn:'Dor Peretz', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:74, positions:['CM','CDM'], stats:{speed:62,shooting:55,passing:64,defending:66,physical:66} },
+    { id:'ISR-GlazerM', name:'格拉泽(中)', nameEn:'Mani Glazer', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:72, positions:['CM','CDM'], stats:{speed:60,shooting:52,passing:62,defending:64,physical:64} },
+    { id:'ISR-Kanichowsky', name:'卡尼乔夫斯基', nameEn:'Gavriel Kanichowsky', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:73, positions:['CM','CAM'], stats:{speed:64,shooting:58,passing:64,defending:48,physical:58} },
+  ],
+  LW: [
+    { id:'ISR-Solomon', name:'所罗门', nameEn:'Manor Solomon', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:75, positions:['LW','RW'], stats:{speed:84,shooting:68,passing:64,defending:35,physical:55} },
+  ],
+  ST: [
+    { id:'ISR-Weissman', name:'韦斯曼', nameEn:'Shon Weissman', nationality:'ISR', avatar:'/images/players/placeholder.png', rating:73, positions:['ST'], stats:{speed:72,shooting:72,passing:52,defending:25,physical:68} },
+  ],
+},
+
 } // end REAL_PLAYERS
 
 // ============================================================
