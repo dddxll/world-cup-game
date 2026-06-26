@@ -9,6 +9,9 @@ import TeamReviewPage from '@/pages/TeamReviewPage'
 import MatchPage from '@/pages/MatchPage'
 import GroupStandingsPage from '@/pages/GroupStandingsPage'
 import KnockoutPage from '@/pages/KnockoutPage'
+import FinalResultPage from '@/pages/FinalResultPage'
+import PkComparePage from '@/pages/PkComparePage'
+import PromoPage from '@/pages/PromoPage'
 
 export default function App() {
   return (
@@ -24,6 +27,9 @@ export default function App() {
         <Route path="/match/:round" element={<MatchPage />} />
         <Route path="/group-standings" element={<GroupStandingsPage />} />
         <Route path="/knockout-bracket" element={<KnockoutPage />} />
+        <Route path="/final-result" element={<FinalResultPage />} />
+        <Route path="/pk-compare" element={<PkComparePage />} />
+        <Route path="/promo" element={<PromoPage />} />
       </Routes>
     </div>
   )
