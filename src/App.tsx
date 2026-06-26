@@ -6,6 +6,7 @@ import FormationPage from '@/pages/FormationPage'
 import SquadPage from '@/pages/SquadPage'
 import BenchPage from '@/pages/BenchPage'
 import TeamReviewPage from '@/pages/TeamReviewPage'
+import MatchPage from '@/pages/MatchPage'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/squad" element={<SquadPage />} />
         <Route path="/squad-bench" element={<BenchPage />} />
         <Route path="/team-review" element={<TeamReviewPage />} />
+        <Route path="/match/:round" element={<MatchPage />} />
       </Routes>
     </div>
   )
