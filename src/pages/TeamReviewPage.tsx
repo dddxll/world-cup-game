@@ -14,10 +14,18 @@ export default function TeamReviewPage() {
   const navigate = useNavigate()
   const { userTeam, setTeamRatings, setTournament, tournament, pkData } = useGameStore()
 
-  // 计算球队评分
-  const ratings = useMemo(() => calculateTeamRatings(userTeam), [userTeam])
+  // 计算球队评分（try-catch 防御）
+  const ratings = useMemo(() => {
+    try {
+      return calculateTeamRatings(userTeam)
+    } catch (e) {
+      console.error('calculateTeamRatings error:', e)
+      return { attack: 0, defense: 0, midfield: 0, overall: 0 }
+    }
+  }, [userTeam])
 
   useEffect(() => {
+    if (ratings.attack === 0 && ratings.defense === 0 && ratings.midfield === 0) return // 异常值跳过
     setTeamRatings(ratings.attack, ratings.defense, ratings.midfield, ratings.overall)
   }, [ratings, setTeamRatings])
 
