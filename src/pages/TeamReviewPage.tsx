@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts'
+
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { useGameStore } from '@/store/gameStore'
@@ -65,17 +65,38 @@ export default function TeamReviewPage() {
           <span className="text-white/40 text-sm ml-2">综合评分</span>
         </div>
 
-        {/* 三围雷达图 */}
-        <Card className="mb-4">
-          <ResponsiveContainer width="100%" height={220}>
-            <RadarChart data={radarData}>
-              <PolarGrid stroke="#ffffff15" />
-              <PolarAngleAxis dataKey="stat" stroke="#ffffff60" fontSize={12} />
-              <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#ffffff20" fontSize={10} />
-              <Radar name="球队" dataKey="value" stroke="#D4A843" fill="#D4A843" fillOpacity={0.25} />
-            </RadarChart>
-          </ResponsiveContainer>
-        </Card>
+        {/* 三围雷达图 - 纯SVG */}
+	        <Card className="mb-4">
+	          <svg viewBox="-60 -60 120 120" className="w-full h-[220px]">
+	            {[30, 60, 90].map(r => (
+	              <polygon key={r}
+	                points={`0,${-r} ${r*0.866},${r*0.5} ${-r*0.866},${r*0.5}`}
+	                fill="none" stroke="#ffffff15" strokeWidth="1" />
+	            ))}
+	            {[0, 120, 240].map(angle => {
+	              const rad = (angle - 90) * Math.PI / 180
+	              return <line key={angle} x1={0} y1={0} x2={100 * Math.cos(rad)} y2={100 * Math.sin(rad)} stroke="#ffffff20" strokeWidth="0.5" />
+	            })}
+	            <text x={0} y={-105} textAnchor="middle" fill="#ffffff60" fontSize="10">进攻</text>
+	            <text x={95} y={55} textAnchor="middle" fill="#ffffff60" fontSize="10">防守</text>
+	            <text x={-95} y={55} textAnchor="middle" fill="#ffffff60" fontSize="10">中场</text>
+	            {ratings.overall > 0 && (() => {
+	              const att = ratings.attack / 100
+	              const def = ratings.defense / 100
+	              const mid = ratings.midfield / 100
+	              const pts = `0,${-100 * att} ${100 * def * 0.866},${100 * def * 0.5} ${-100 * mid * 0.866},${100 * mid * 0.5}`
+	              return <polygon points={pts} fill="#D4A843" fillOpacity="0.25" stroke="#D4A843" strokeWidth="2" />
+	            })()}
+	            {ratings.overall > 0 && [
+	              { v: ratings.attack, cx: 0, cy: -100 },
+	              { v: ratings.defense, cx: 100 * 0.866, cy: 100 * 0.5 },
+	              { v: ratings.midfield, cx: -100 * 0.866, cy: 100 * 0.5 },
+	            ].map((pt, i) => (<g key={i}>
+	              <circle cx={pt.cx * pt.v/100} cy={pt.cy * pt.v/100} r="3" fill="#D4A843" />
+	              <text x={pt.cx * pt.v/100} y={pt.cy * pt.v/100 - 6} textAnchor="middle" fill="#D4A843" fontSize="9" fontWeight="bold">{pt.v}</text>
+	            </g>))}
+	          </svg>
+	        </Card>
 
         {/* 三围数值 */}
         <div className="grid grid-cols-3 gap-3 mb-4">
