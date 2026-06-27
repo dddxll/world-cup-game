@@ -10,7 +10,7 @@ import { recordKnockoutResult as engineRecordKnockoutResult } from '@/engine/tou
 import { allTeams } from '@/data/teams'
 import { getPlayers } from '@/data/players'
 import { MiniFormationBoard } from '@/components/match/MiniFormationBoard'
-import type { MatchEventV2, MatchEventOptionV2, MatchStateV2, NationalTeam, Player, TournamentState } from '@/types'
+import type { MatchEventV2, MatchEventOptionV2, MatchStateV2, NationalTeam, Player, TournamentState, Position } from '@/types'
 import { ArrowRight, SkipForward } from 'lucide-react'
 
 type Phase = 'intro' | 'pre_return' | 'event_active' | 'event_result' | 'var_check' | 'var_result' | 'substitution' | 'finished' | 'skipping' | 'post_match'
@@ -530,7 +530,7 @@ export default function MatchPage() {
         // ★ 仅记录己方罚下
         if (evt.side === 'home') {
           next.sendOffsThisMatch = [...next.sendOffsThisMatch, {
-            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute,
+            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute, originalXiIndex: -1,
           }]
         }
       }
@@ -570,7 +570,7 @@ export default function MatchPage() {
         }]
         if (isSecondYellow) {
           next.sendOffsThisMatch = [...next.sendOffsThisMatch, {
-            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute,
+            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute, originalXiIndex: -1,
           }]
         }
       } else if ((evt.type === 'card_red' || evt.type === 'card_second_yellow') && evt.side === 'home') {
@@ -908,7 +908,7 @@ export default function MatchPage() {
       }
 
       // ★ 赛后伤停检查
-      const issues: { playerName: string; playerId: string; reason: string; type: string }[] = []
+      const issues: { playerName: string; playerId: string; reason: string; type: string; originalXiIndex: number }[] = []
       for (const inj of state.injuriesThisMatch || []) {
         issues.push({
           playerName: inj.playerName, playerId: inj.playerId,
