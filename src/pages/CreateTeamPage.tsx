@@ -9,12 +9,9 @@ const COLORS = ['#D4A843', '#E74C3C', '#3498DB', '#2ECC71', '#9B59B6', '#1ABC9C'
 
 export default function CreateTeamPage() {
   const navigate = useNavigate()
-  const { setTeamName, setTeamColor, userTeam, pkData } = useGameStore()
+  const { setTeamName, setTeamColor, userTeam } = useGameStore()
   const [name, setName] = useState(userTeam.name || '')
   const [color, setColor] = useState(userTeam.color || COLORS[0])
-
-  const isPk = pkData.playerA !== null
-  const playerLabel = isPk ? `玩家 ${pkData.currentPlayer}` : ''
 
   const handleNext = () => {
     if (!name.trim()) return
@@ -26,9 +23,6 @@ export default function CreateTeamPage() {
   return (
     <div className="min-h-screen px-6 py-8">
       <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        {isPk && (
-          <p className="text-gold text-center mb-4 font-bold text-lg">⚔️ 双人 PK · 玩家 {pkData.currentPlayer}</p>
-        )}
         <h1 className="text-2xl font-bold text-center mb-8">创建你的球队</h1>
 
         <div className="space-y-6">

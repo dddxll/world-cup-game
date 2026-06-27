@@ -1,16 +1,49 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { PlayerDrawer } from '@/components/player/PlayerDrawer'
 import { useGameStore } from '@/store/gameStore'
+import { getPlayers } from '@/data/players'
+import { allTeams } from '@/data/teams'
 import type { Player } from '@/types'
-import { Plus, ArrowRight } from 'lucide-react'
+import { Plus, ArrowRight, Shuffle } from 'lucide-react'
 
 export default function BenchPage() {
   const navigate = useNavigate()
-  const { userTeam, addBenchPlayer, removeBenchPlayer, pkData } = useGameStore()
+  const { userTeam, addBenchPlayer, removeBenchPlayer } = useGameStore()
   const [showDrawer, setShowDrawer] = useState(false)
+
+  const allPositions = ['GK','CB','LB','RB','LWB','RWB','CDM','CM','CAM','LM','RM','LW','RW','ST'] as const
+
+  // 一键随机填充替补
+  const handleRandomFillBench = useCallback(() => {
+    // 内联计算已使用国家
+    const used = new Set<string>()
+    for (const p of userTeam.startingXI) { if (p) used.add(p.nationality) }
+    for (const p of userTeam.bench) { if (p) used.add(p.nationality) }
+    const currentBench = [...userTeam.bench]
+    const need = 15 - currentBench.length
+    if (need <= 0) return
+
+    let filled = 0
+    const maxAttempts = need * 5
+    let attempts = 0
+
+    while (filled < need && attempts < maxAttempts) {
+      attempts++
+      const country = allTeams[Math.floor(Math.random() * allTeams.length)]
+      const pos = allPositions[Math.floor(Math.random() * allPositions.length)]
+      const players = getPlayers(country.id, pos)
+      if (players.length === 0) continue
+      const player = players[Math.floor(Math.random() * players.length)]
+      if (userTeam.startingXI.some(p => p?.id === player.id)) continue
+      if (currentBench.some(p => p.id === player.id)) continue
+      currentBench.push(player)
+      addBenchPlayer(player)
+      filled++
+    }
+  }, [userTeam.bench, userTeam.startingXI, addBenchPlayer])
 
   // 选满15人自动跳转
   useEffect(() => {
@@ -48,7 +81,6 @@ export default function BenchPage() {
   return (
     <div className="min-h-screen px-4 py-6">
       <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        {pkData.playerA && <p className="text-gold text-center mb-2 font-bold">⚔️ 玩家 {pkData.currentPlayer}</p>}
         <h1 className="text-xl font-bold text-center mb-1">选择替补球员</h1>
         <p className="text-white/40 text-sm text-center mb-2">已选 {benchCount}/15 人</p>
 
@@ -64,6 +96,15 @@ export default function BenchPage() {
         {/* 建议 */}
         {benchPositions.length > 0 && (
           <p className="text-yellow-400/80 text-xs mb-3">💡 建议补充: {benchPositions.join('、')}</p>
+        )}
+
+        {/* 一键随机 */}
+        {benchCount < 15 && (
+          <div className="text-center mb-3">
+            <Button variant="secondary" size="sm" onClick={handleRandomFillBench}>
+              <Shuffle className="inline mr-1" size={14} />一键随机填充替补
+            </Button>
+          </div>
         )}
 
         {/* 替补槽位 */}

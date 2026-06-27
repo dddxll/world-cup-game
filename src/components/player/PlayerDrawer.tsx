@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
@@ -28,6 +28,8 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
   const [rerollsLeft, setRerollsLeft] = useState(maxRerolls)
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [animating, setAnimating] = useState(false)
+  // ★ 防止关闭重开无限刷新：首次打开后固定，除非手动 reroll
+  const hasInitialRolled = useRef(false)
 
   const availableCountries = useMemo(() =>
     allTeams.filter(t => !usedCountryIds.includes(t.id)),
@@ -67,15 +69,21 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
     rollCountry()
   }
 
-  // 首次打开时随机
+  // 首次打开时随机；关闭重开不重新随机（防止无限刷新）
   useEffect(() => {
-    if (open) {
+    if (open && !hasInitialRolled.current) {
       setRerollsLeft(maxRerolls)
       setSelectedPlayer(null)
       rollCountry()
+      hasInitialRolled.current = true
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, position, maxRerolls])
+  }, [open, maxRerolls])
+
+  // 选中球员后重置标记（下次打开可以重新随机）
+  function handleSelectAndClose(player: Player, countryId: string) {
+    hasInitialRolled.current = false
+    onSelect(player, countryId)
+  }
 
   // 所有位置列表
   // 注：allPositionsList 已在上方定义，直接使用
@@ -100,7 +108,7 @@ export function PlayerDrawer({ open, position, usedCountryIds, onSelect, onClose
 
   function handleConfirm() {
     if (!selectedPlayer || !country) return
-    onSelect(selectedPlayer, country.id)
+    handleSelectAndClose(selectedPlayer, country.id)
     onClose()
   }
 

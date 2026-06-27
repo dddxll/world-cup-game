@@ -64,9 +64,17 @@ interface Props {
   players?: (Player | null)[]
   onSlotClick?: (index: number) => void
   highlightIndex?: number
+  /** 红黄牌标记：位置索引 → 牌色 */
+  cardSlots?: { index: number; type: 'yellow' | 'red' }[]
+  /** 进球标记：位置索引 → 进球次数 */
+  goalSlots?: { index: number; count: number }[]
+  /** 助攻标记：位置索引 → 助攻次数 */
+  assistSlots?: { index: number; count: number }[]
+  /** 只读模式：禁用 cursor-pointer（用于比赛中的阵型展示） */
+  readOnly?: boolean
 }
 
-export function FormationPitch({ formation, players, onSlotClick, highlightIndex }: Props) {
+export function FormationPitch({ formation, players, onSlotClick, highlightIndex, cardSlots, goalSlots, assistSlots, readOnly }: Props) {
   return (
     <div className="relative w-full" style={{ paddingBottom: '120%' }}>
       <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
@@ -137,11 +145,13 @@ export function FormationPitch({ formation, players, onSlotClick, highlightIndex
           const { x, y } = getCoords(formation.positions, i)
           const player = players?.[i]
           const isHighlight = highlightIndex === i
+          const goalSlot = goalSlots?.find(g => g.index === i)
+          const assistSlot = assistSlots?.find(a => a.index === i)
           return (
             <g
               key={`${pos}-${i}`}
               onClick={() => onSlotClick?.(i)}
-              className={onSlotClick ? 'cursor-pointer' : ''}
+              className={onSlotClick && !readOnly ? 'cursor-pointer' : ''}
             >
               <circle
                 cx={x}
@@ -183,6 +193,73 @@ export function FormationPitch({ formation, players, onSlotClick, highlightIndex
               >
                 {pos}
               </text>
+              {/* ★ 球员姓名：圆点下方 */}
+              {player && (
+                <text
+                  x={x}
+                  y={y + 7}
+                  textAnchor="middle"
+                  fill="#ffffff70"
+                  fontSize="2"
+                  fontWeight="normal"
+                >
+                  {player.name.length > 6 ? player.name.slice(0, 6) + '…' : player.name}
+                </text>
+              )}
+              {/* 红黄牌标记：右上角 */}
+              {cardSlots?.some(c => c.index === i) && (() => {
+                const card = cardSlots.find(c => c.index === i)!
+                return (
+                  <rect key={`card-${i}`}
+                    x={x + 1.8} y={y - 5.5}
+                    width={2.2} height={3}
+                    rx={0.4}
+                    fill={card.type === 'red' ? '#ef4444' : '#eab308'}
+                    stroke="#ffffffcc"
+                    strokeWidth={0.15}
+                  />
+                )
+              })()}
+              {/* 进球标记：右下角金色圆点（多球显示×N） */}
+              {goalSlot && (
+                <g key={`goal-${i}`}>
+                  <circle
+                    cx={x + 2.5} cy={y + 2.5}
+                    r={1.5}
+                    fill="#D4A843"
+                    stroke="#ffffffcc"
+                    strokeWidth={0.15}
+                  />
+                  <text x={x + 2.5} y={y + 2.9} textAnchor="middle" fill="white" fontSize="1.4" fontWeight="bold">G</text>
+                  {goalSlot.count > 1 && (
+                    <text x={x + 4.2} y={y + 3.2} textAnchor="start" fill="#D4A843" fontSize="1.3" fontWeight="bold">×{goalSlot.count}</text>
+                  )}
+                </g>
+              )}
+              {/* 助攻标记：右下角偏下青色圆点（与进球位置重叠时自动偏移） */}
+              {assistSlot && (
+                <g key={`assist-${i}`}>
+                  <circle
+                    cx={x + 2.5} cy={y + (goalSlot ? 4.5 : 2.5)}
+                    r={1.5}
+                    fill="#06b6d4"
+                    stroke="#ffffffcc"
+                    strokeWidth={0.15}
+                  />
+                  <text
+                    x={x + 2.5}
+                    y={y + (goalSlot ? 4.9 : 2.9)}
+                    textAnchor="middle" fill="white" fontSize="1.4" fontWeight="bold"
+                  >A</text>
+                  {assistSlot.count > 1 && (
+                    <text
+                      x={x + 4.2}
+                      y={y + (goalSlot ? 5.2 : 3.2)}
+                      textAnchor="start" fill="#06b6d4" fontSize="1.3" fontWeight="bold"
+                    >×{assistSlot.count}</text>
+                  )}
+                </g>
+              )}
             </g>
           )
         })}

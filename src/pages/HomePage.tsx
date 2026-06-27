@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { useGameStore } from '@/store/gameStore'
-import { Trophy, Users, Swords } from 'lucide-react'
+import { Trophy, Swords } from 'lucide-react'
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const { resetGame, initPkMode } = useGameStore()
+  const { resetGame } = useGameStore()
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
@@ -49,10 +49,6 @@ export default function HomePage() {
             <Button size="lg" className="w-full" onClick={() => { resetGame(); navigate('/create') }}>
               <Swords className="inline mr-2" size={20} />
               开始游戏
-            </Button>
-            <Button size="lg" variant="secondary" className="w-full" onClick={() => { initPkMode(); navigate('/create') }}>
-              <Users className="inline mr-2" size={20} />
-              双人 PK
             </Button>
           </div>
         </motion.div>

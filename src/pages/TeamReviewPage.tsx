@@ -1,9 +1,10 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
+import { FormationPitch } from '@/components/formation/FormationPitch'
 import { useGameStore } from '@/store/gameStore'
 import { calculateTeamRatings } from '@/engine/rating'
 import { generateTournament } from '@/engine/tournament'
@@ -12,7 +13,10 @@ import { ArrowRight, Shield, Swords, Zap } from 'lucide-react'
 
 export default function TeamReviewPage() {
   const navigate = useNavigate()
-  const { userTeam, setTeamRatings, setTournament, tournament, pkData } = useGameStore()
+  const { userTeam, setTeamRatings, setTournament, swapWithBench } = useGameStore()
+
+  // 首发↔替补交换状态
+  const [selectedXiIndex, setSelectedXiIndex] = useState<number | null>(null)
 
   // 计算球队评分（try-catch 防御）
   const ratings = useMemo(() => {
@@ -24,17 +28,6 @@ export default function TeamReviewPage() {
     }
   }, [userTeam])
 
-  useEffect(() => {
-    if (ratings.attack === 0 && ratings.defense === 0 && ratings.midfield === 0) return // 异常值跳过
-    setTeamRatings(ratings.attack, ratings.defense, ratings.midfield, ratings.overall)
-  }, [ratings, setTeamRatings])
-
-  const radarData = [
-    { stat: '进攻', value: ratings.attack, fullMark: 100 },
-    { stat: '防守', value: ratings.defense, fullMark: 100 },
-    { stat: '中场', value: ratings.midfield, fullMark: 100 },
-  ]
-
   // 随机分配玩家到一个小组
   const playerGroup = useMemo(() => {
     const groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
@@ -42,18 +35,33 @@ export default function TeamReviewPage() {
   }, [])
 
   function handleStart() {
+    // 在开赛时一次性写入评分（不在 effect 中写，避免无限渲染循环）
+    setTeamRatings(ratings.attack, ratings.defense, ratings.midfield, ratings.overall)
     const t = generateTournament(userTeam, allTeams, playerGroup)
     setTournament(t)
     navigate('/match/group-1')
   }
 
-  const isPk = pkData.playerA !== null
+  // 交换操作
+  function handleStarterClick(index: number) {
+    if (selectedXiIndex === index) {
+      setSelectedXiIndex(null) // 再次点击取消选中
+    } else {
+      setSelectedXiIndex(index)
+    }
+  }
+
+  function handleBenchClick(benchIndex: number) {
+    if (selectedXiIndex === null) return
+    swapWithBench(selectedXiIndex, benchIndex)
+    setSelectedXiIndex(null)
+  }
+
   const bench = userTeam.bench
 
   return (
     <div className="min-h-screen px-4 py-6">
       <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        {isPk && <p className="text-gold text-center mb-2 font-bold">⚔️ 玩家 {pkData.currentPlayer}</p>}
         <h1 className="text-2xl font-bold text-center mb-1">{userTeam.name || '你的球队'}</h1>
         <p className="text-white/40 text-sm text-center mb-2">
           {userTeam.coach?.name} · {userTeam.formation?.name} · 分入 {playerGroup} 组
@@ -117,27 +125,64 @@ export default function TeamReviewPage() {
           </Card>
         </div>
 
-        {/* 首发阵容 */}
-        <h3 className="text-sm font-bold text-white/60 mb-2">首发 11 人</h3>
-        <div className="grid grid-cols-6 gap-1 mb-4">
-          {userTeam.startingXI.map((p, i) => (
-            <div key={i} className="text-center">
-              <div className="w-10 h-10 mx-auto rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center text-xs text-gold font-bold">
-                {p ? p.rating : '-'}
-              </div>
-              <p className="text-[9px] text-white/40 mt-0.5 truncate">{userTeam.formation?.positions[i]}</p>
-            </div>
-          ))}
-        </div>
+        {/* 首发阵容 — 阵型图交互 */}
+        <h3 className="text-sm font-bold text-white/60 mb-2">
+          首发 11 人
+          {selectedXiIndex !== null && (
+            <span className="text-gold text-xs ml-2">— 已选中，点击替补交换</span>
+          )}
+        </h3>
+
+        {/* 选中提示 */}
+        {selectedXiIndex !== null && userTeam.startingXI[selectedXiIndex] && (
+          <p className="text-gold text-xs text-center mb-2 animate-pulse">
+            👆 已选中{' '}
+            <span className="font-bold">{userTeam.startingXI[selectedXiIndex]!.name}</span>
+            {' '}（{userTeam.startingXI[selectedXiIndex]!.rating}分 · {userTeam.startingXI[selectedXiIndex]!.positions.join('/')}），请点击下方替补球员进行交换
+          </p>
+        )}
+
+        {userTeam.formation && (
+          <div className="max-w-[300px] mx-auto mb-3">
+            <FormationPitch
+              formation={userTeam.formation}
+              players={userTeam.startingXI}
+              onSlotClick={handleStarterClick}
+              highlightIndex={selectedXiIndex ?? undefined}
+            />
+          </div>
+        )}
 
         {/* 替补阵容 */}
-        <h3 className="text-sm font-bold text-white/60 mb-2">替补 {bench.length}/15 人</h3>
-        <div className="flex gap-1 flex-wrap mb-20">
-          {bench.map((p, i) => (
-            <span key={i} className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-white/60">
-              {p.name} <span className="text-gold">{p.rating}</span>
-            </span>
-          ))}
+        <h3 className="text-sm font-bold text-white/60 mb-2">
+          替补 {bench.length}/15 人
+          {selectedXiIndex !== null && <span className="text-gold text-xs ml-2">— 点击交换</span>}
+        </h3>
+        <div className="flex gap-1.5 flex-wrap mb-20">
+          {bench.map((p, i) => {
+            const canSwap = selectedXiIndex !== null
+            // 判断该替补是否适配选中的首发位置
+            const selectedPos = selectedXiIndex !== null ? userTeam.formation?.positions[selectedXiIndex] : null
+            const isPositionMatch = selectedPos ? p.positions.includes(selectedPos) : false
+            return (
+              <button key={i}
+                onClick={() => handleBenchClick(i)}
+                disabled={!canSwap}
+                className={`px-2.5 py-1.5 rounded-full border text-xs transition-all
+                  ${canSwap && isPositionMatch
+                    ? 'border-green-400/60 bg-green-400/15 hover:bg-green-400/25 hover:border-green-400 cursor-pointer text-white'
+                    : canSwap
+                      ? 'border-gold/40 bg-gold/10 hover:bg-gold/20 hover:border-gold/60 cursor-pointer text-white'
+                      : 'border-white/10 bg-white/5 text-white/60'}`}>
+                <span className="text-gold font-bold mr-1">{p.rating}</span>
+                {p.name}
+                <span className={`ml-1 text-[10px] ${canSwap && isPositionMatch ? 'text-green-400 font-bold' : 'text-white/20'}`}>
+                  {p.positions.join('/')}
+                  {canSwap && isPositionMatch && ' ✓'}
+                </span>
+              </button>
+            )
+          })}
           {bench.length === 0 && <span className="text-white/20 text-xs">尚未选择替补</span>}
         </div>
 

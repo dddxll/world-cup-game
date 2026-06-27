@@ -11,7 +11,7 @@ import { ArrowRight } from 'lucide-react'
 
 export default function FormationPage() {
   const navigate = useNavigate()
-  const { setFormation, userTeam, pkData } = useGameStore()
+  const { setFormation, userTeam } = useGameStore()
   const coach = userTeam.coach
 
   // 只显示教练擅长阵型
@@ -34,18 +34,11 @@ export default function FormationPage() {
     navigate('/squad')
   }
 
-  const isPk = pkData.playerA !== null
-
   if (!coach) return null
 
   return (
     <div className="min-h-screen px-4 py-6">
       <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        {isPk && (
-          <p className="text-gold text-center mb-2 font-bold">
-            ⚔️ 玩家 {pkData.currentPlayer}
-          </p>
-        )}
         <h1 className="text-xl font-bold text-center mb-1">选择阵型</h1>
         <p className="text-white/40 text-sm text-center mb-2">
           主教练:{' '}

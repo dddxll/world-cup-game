@@ -4,18 +4,14 @@ import { useGameStore } from '@/store/gameStore'
 import { calculateTeamRatings } from '@/engine/rating'
 import { Trophy, Medal } from 'lucide-react'
 
-export function ResultCard() {
-  const { userTeam, tournament } = useGameStore()
+interface Props { rank?: string }
+
+export function ResultCard({ rank }: Props) {
+  const { userTeam } = useGameStore()
   const ratings = useMemo(() => {
     try { return calculateTeamRatings(userTeam) }
     catch { return { attack: 0, defense: 0, midfield: 0, overall: 0 } }
   }, [userTeam])
-
-  const finalRank = useMemo(() => {
-    if (!tournament) return '?'
-    if (tournament.isPlayerEliminated) return '小组赛'
-    return '16强'
-  }, [tournament])
 
   return (
     <div id="result-card" className="bg-pitch p-6 rounded-2xl border border-white/10">
@@ -27,7 +23,7 @@ export function ResultCard() {
         <h1 className="text-2xl font-bold text-white">{userTeam.name}</h1>
         <div className="flex items-center justify-center gap-2 mt-1">
           <Medal size={20} className="text-gold" />
-          <span className="text-gold font-bold text-lg">{finalRank}</span>
+          <span className="text-gold font-bold text-lg">{rank || '?'}</span>
         </div>
         <p className="text-white/40 text-xs mt-1">
           {userTeam.coach?.name} · {userTeam.formation?.name}

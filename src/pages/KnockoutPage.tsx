@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
@@ -11,108 +11,112 @@ const ROUNDS: KnockoutMatch['round'][] = ['32强', '16强', '8强', '4强', '季
 
 export default function KnockoutPage() {
   const navigate = useNavigate()
-  const { tournament, userTeam, pkData } = useGameStore()
-  const [currentRoundIdx, setCurrentRoundIdx] = useState(0)
+  const { tournament, userTeam } = useGameStore()
+  // 自动定位到当前进行中的轮次（而非总是显示32强）
+  const defaultIdx = tournament?.currentKnockoutRound
+    ? ROUNDS.indexOf(tournament.currentKnockoutRound as any)
+    : 0
+  const [currentRoundIdx, setCurrentRoundIdx] = useState(defaultIdx >= 0 ? defaultIdx : 0)
 
-  // 生成本地淘汰赛对阵(模拟)
-  const bracket = useMemo(() => {
-    if (!tournament) return []
-    // 从小组赛晋级队生成 32 强对阵
-    const qualified: string[] = [userTeam.name]
-    // 添加 AI 晋级队
-    for (const [, records] of Object.entries(tournament.groups)) {
-      const sorted = [...records].sort((a, b) => b.points - a.points || b.goalDiff - a.goalDiff)
-      for (const r of sorted.slice(0, 2)) {
-        if (r.teamName !== userTeam.name && !qualified.includes(r.teamName)) {
-          qualified.push(r.teamName)
-        }
-      }
+  // ★ 同步：当 tournament 推进到新轮次时自动切换标签
+  useEffect(() => {
+    if (tournament?.currentKnockoutRound) {
+      const idx = ROUNDS.indexOf(tournament.currentKnockoutRound as any)
+      if (idx >= 0) setCurrentRoundIdx(idx)
     }
+  }, [tournament?.currentKnockoutRound])
 
-    // 生成对阵树
-    const matches: KnockoutMatch[][] = []
-    let teams = qualified.slice(0, 32)
+  // 使用 tournament 真实数据
+  const allMatches = tournament?.knockoutRounds || []
 
-    for (const round of ROUNDS) {
-      const roundMatches: KnockoutMatch[] = []
-      for (let i = 0; i < teams.length; i += 2) {
-        const isPlayerMatch = teams[i] === userTeam.name || teams[i + 1] === userTeam.name
-        // 模拟结果
-        const playerWins = teams[i] === userTeam.name
-          ? (Math.random() > 0.4)
-          : (teams[i + 1] === userTeam.name ? (Math.random() > 0.4) : Math.random() > 0.5)
-        const winner = playerWins ? teams[i] : teams[i + 1]
+  // 按轮次分组
+  const bracketByRound = useMemo(() => {
+    const map: Record<string, KnockoutMatch[]> = {}
+    for (const r of ROUNDS) map[r] = allMatches.filter(m => m.round === r)
+    return map
+  }, [allMatches])
 
-        roundMatches.push({
-          id: `${round}-${i / 2}`,
-          round,
-          homeTeam: teams[i],
-          awayTeam: teams[i + 1],
-          homeScore: Math.floor(Math.random() * 3),
-          awayScore: Math.floor(Math.random() * 3),
-          winner: isPlayerMatch ? userTeam.name : winner,
-        })
-      }
-      matches.push(roundMatches)
-      teams = roundMatches.map(m => m.winner!).filter(Boolean)
-    }
-    return matches
-  }, [tournament, userTeam.name])
+  const currentRoundName = ROUNDS[currentRoundIdx]
+  const currentRoundMatches = bracketByRound[currentRoundName] || []
 
-  const currentRound = bracket[currentRoundIdx] || []
-  const playerMatches = bracket.map(round =>
-    round.find(m => m.homeTeam === userTeam.name || m.awayTeam === userTeam.name)
+  // 找到玩家在本轮中的比赛
+  const playerMatch = currentRoundMatches.find(
+    m => m.homeTeam === '玩家球队' || m.awayTeam === '玩家球队'
   )
-  const playerEliminated = playerMatches.some(m => m && m.winner !== userTeam.name)
+
+  // 检查玩家路径
+  const playerProgress = ROUNDS.map(round => {
+    const matches = bracketByRound[round] || []
+    const pm = matches.find(m => m.homeTeam === '玩家球队' || m.awayTeam === '玩家球队')
+    if (!pm) return { round, status: 'future' as const }
+    if (pm.winner === '玩家球队') return { round, status: 'won' as const }
+    if (pm.winner && pm.winner !== '玩家球队') return { round, status: 'lost' as const }
+    if (pm.homeScore !== undefined) return { round, status: 'played' as const }
+    return { round, status: 'upcoming' as const }
+  })
+
+  const eliminated = tournament?.isPlayerEliminated || false
+  const isChampion = playerProgress.some(p => p.round === '决赛' && p.status === 'won')
 
   return (
     <div className="min-h-screen px-4 py-6">
       <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        {pkData.playerA && <p className="text-gold text-center mb-2 font-bold">⚔️ 玩家 {pkData.currentPlayer}</p>}
-        <h1 className="text-xl font-bold text-center mb-4">🏆 淘汰赛对阵</h1>
+        <h1 className="text-xl font-bold text-center mb-1">🏆 淘汰赛对阵</h1>
+        <p className="text-white/40 text-sm text-center mb-4">{userTeam.name}</p>
 
         {/* 晋级路径指示器 */}
         <div className="flex items-center justify-center gap-1 mb-6 flex-wrap">
-          {ROUNDS.map((r, i) => {
-            const pm = playerMatches[i]
-            const passed = pm && pm.winner === userTeam.name
-            const failed = pm && pm.winner !== userTeam.name
-            return (
-              <div key={r} className="flex items-center gap-1">
-                <span className={`px-2 py-1 rounded text-xs font-medium
-                  ${passed ? 'bg-green-500/20 text-green-400' : failed ? 'bg-red-500/20 text-red-400' : 'bg-white/5 text-white/30'}`}>
-                  {passed ? '✅' : failed ? '❌' : '⬜'} {r}
-                </span>
-                {i < ROUNDS.length - 1 && <span className="text-white/20">→</span>}
-              </div>
-            )
-          })}
+          {playerProgress.map((p, i) => (
+            <div key={p.round} className="flex items-center gap-1">
+              <span className={`px-2 py-1 rounded text-xs font-medium
+                ${p.status === 'won' ? 'bg-green-500/20 text-green-400' :
+                  p.status === 'lost' ? 'bg-red-500/20 text-red-400' :
+                  p.status === 'upcoming' ? 'bg-gold/20 text-gold' :
+                  'bg-white/5 text-white/30'}`}>
+                {p.status === 'won' ? '✅' : p.status === 'lost' ? '❌' :
+                 p.status === 'upcoming' ? '⚡' : '⬜'} {p.round}
+              </span>
+              {i < ROUNDS.length - 1 && <span className="text-white/20">→</span>}
+            </div>
+          ))}
         </div>
 
         {/* 轮次选择器 */}
         <div className="flex gap-2 overflow-x-auto mb-4 pb-2">
-          {ROUNDS.map((r, i) => (
-            <button key={r} onClick={() => setCurrentRoundIdx(i)}
-              className={`px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all
-                ${currentRoundIdx === i ? 'bg-gold text-pitch font-bold' : 'bg-white/10 text-white/50'}`}>
-              {r}
-            </button>
-          ))}
+          {ROUNDS.map((r, i) => {
+            const hasMatches = bracketByRound[r]?.length > 0
+            return (
+              <button key={r} onClick={() => setCurrentRoundIdx(i)}
+                disabled={!hasMatches}
+                className={`px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all
+                  ${currentRoundIdx === i ? 'bg-gold text-pitch font-bold' :
+                    hasMatches ? 'bg-white/10 text-white/50' : 'bg-white/5 text-white/15'}`}>
+                {r}
+              </button>
+            )
+          })}
         </div>
 
         {/* 对阵列表 */}
         <div className="space-y-2 mb-20">
-          {currentRound.map(m => {
-            const isPlayer = m.homeTeam === userTeam.name || m.awayTeam === userTeam.name
+          {currentRoundMatches.length === 0 && (
+            <p className="text-white/20 text-center py-8">本轮赛事尚未进行</p>
+          )}
+          {currentRoundMatches.map(m => {
+            const isPlayer = m.homeTeam === '玩家球队' || m.awayTeam === '玩家球队'
+            const played = m.homeScore !== undefined
             return (
               <Card key={m.id} className={isPlayer ? 'border-gold/50' : ''}>
                 <div className="flex items-center justify-between text-sm">
                   <span className={`flex-1 text-right mr-2 truncate ${m.winner === m.homeTeam ? 'text-gold font-bold' : 'text-white/60'}`}>
-                    {m.homeTeam}
+                    {m.homeTeam || '?'}
                   </span>
-                  <span className="text-white/40 text-xs">{m.homeScore ?? '?'} - {m.awayScore ?? '?'}</span>
+                  <span className={`text-xs font-bold tabular-nums min-w-[3rem] text-center
+                    ${played ? 'text-white' : 'text-white/20'}`}>
+                    {played ? `${m.homeScore} - ${m.awayScore}` : '? - ?'}
+                  </span>
                   <span className={`flex-1 ml-2 truncate ${m.winner === m.awayTeam ? 'text-gold font-bold' : 'text-white/60'}`}>
-                    {m.awayTeam}
+                    {m.awayTeam || '?'}
                   </span>
                 </div>
               </Card>
@@ -122,9 +126,26 @@ export default function KnockoutPage() {
 
         {/* 底部操作按钮 */}
         <div className="fixed bottom-0 left-0 right-0 max-w-game mx-auto p-4 bg-gradient-to-t from-pitch via-pitch/95 to-transparent">
-          <Button size="lg" className="w-full" onClick={() => navigate(playerEliminated ? '/final-result' : '/match/knockout-1')}>
-            {playerEliminated ? '查看最终成绩' : '下一场比赛'} <ArrowRight className="inline ml-1" size={18} />
-          </Button>
+          {isChampion ? (
+            <Button size="lg" className="w-full" onClick={() => navigate('/final-result')}>
+              🏆 查看夺冠结果 <ArrowRight className="inline ml-1" size={18} />
+            </Button>
+          ) : eliminated ? (
+            <Button size="lg" className="w-full" onClick={() => navigate('/final-result')}>
+              查看最终成绩 <ArrowRight className="inline ml-1" size={18} />
+            </Button>
+          ) : playerMatch && !playerMatch.homeScore ? (
+            <Button size="lg" className="w-full" onClick={() => navigate(`/match/knockout-${currentRoundName}`)}>
+              ⚽ 进行{currentRoundName}比赛 <ArrowRight className="inline ml-1" size={18} />
+            </Button>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-white/30 text-xs text-center">选择轮次查看对阵</p>
+              <Button variant="secondary" className="w-full" onClick={() => navigate('/final-result')}>
+                查看最终成绩
+              </Button>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
