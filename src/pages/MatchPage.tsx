@@ -10,7 +10,7 @@ import { recordKnockoutResult as engineRecordKnockoutResult } from '@/engine/tou
 import { allTeams } from '@/data/teams'
 import { getPlayers } from '@/data/players'
 import { MiniFormationBoard } from '@/components/match/MiniFormationBoard'
-import type { MatchEventV2, MatchEventOptionV2, MatchStateV2, NationalTeam, Player, TournamentState, Position } from '@/types'
+import type { MatchEventV2, MatchEventOptionV2, MatchStateV2, MatchEventSide, NationalTeam, Player, TournamentState, Position } from '@/types'
 import { ArrowRight, SkipForward } from 'lucide-react'
 
 type Phase = 'intro' | 'pre_return' | 'event_active' | 'event_result' | 'var_check' | 'var_result' | 'substitution' | 'finished' | 'skipping' | 'post_match'
@@ -427,25 +427,25 @@ export default function MatchPage() {
           scorerName = pn; scorerId = undefined; scorerPos = undefined
         }
 
-        const resolvedGoalEvt = {
+        const resolvedGoalEvt: MatchEventV2 = {
           ...evt,
-          type: 'goal', side,
+          type: 'goal' as const, side,
           title: goalTitle, description: goalDesc,
           playerName: scorerName, playerId: scorerId, playerPosition: scorerPos,
           assistPlayerName: assistName,
-        }
+        } as MatchEventV2
 
         // ★ 12% 概率触发 VAR 越位复查（比分先不加，var_result 统一处理）
         if (Math.random() < 0.12) {
           const nextEvt = next.events[idx + 1]
           if (!nextEvt || nextEvt.type !== 'offside_goal') {
-            const offsideEvt = {
-              id: 'var-' + Date.now(), minute: evt.minute, type: 'offside_goal', side,
+            const offsideEvt: MatchEventV2 = {
+              id: 'var-' + Date.now(), minute: evt.minute, type: 'offside_goal' as const, side,
               title: '📺 VAR 正在检查进球…',
               description: '裁判通过 VAR 核查 ' + scorerName + ' 进球时是否越位',
               playerName: scorerName, playerId: scorerId, playerPosition: scorerPos,
               interactive: false,
-            }
+            } as MatchEventV2
             // 插入 offside_goal 事件到数组中
             next.events = [...next.events.slice(0, idx + 1), offsideEvt, ...next.events.slice(idx + 1)]
             // ★ 更新当前进球事件为 resolved goal（比分未加，等 var_result）
