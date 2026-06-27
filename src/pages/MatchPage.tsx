@@ -1723,7 +1723,7 @@ export default function MatchPage() {
       {/* 主视觉区：大尺寸阵型图 + 事件半透明覆盖层 */}
       <div className="flex-1 relative min-h-0">
         {/* 阵型图背景 — 始终可见 */}
-        {phase !== 'intro' && phase !== 'skipping' && !phase.startsWith('penalties') && phase !== 'var_check' && phase !== 'var_result' && phase !== 'red_card_tactical' && userTeam.formation && (
+        {!phase.startsWith('penalties') && phase !== 'var_check' && phase !== 'var_result' && phase !== 'red_card_tactical' && phase !== 'penalties_result' && userTeam.formation && (
           <MiniFormationBoard
             formation={userTeam.formation}
             startingXI={userTeam.startingXI}
@@ -2105,12 +2105,12 @@ export default function MatchPage() {
                   {matchInfo?.isKnockout ? (
                     <>
                       {/* 赢了且还有下一轮 → 去签表页继续 */}
-                      {matchState.homeScore > matchState.awayScore && !tournament.isPlayerEliminated && tournament.currentRound !== 'finished' && (
+                      {tournament && matchState.homeScore > matchState.awayScore && !tournament.isPlayerEliminated && tournament.currentRound !== 'finished' && (
                         <Button className="w-full" onClick={() => navigate('/knockout-bracket')}>
-                          ⚽ 继续{tournament.currentKnockoutRound}比赛 <ArrowRight className="inline ml-1" size={16} />
+                          ⚽ 继续{tournament?.currentKnockoutRound}比赛 <ArrowRight className="inline ml-1" size={16} />
                         </Button>
                       )}
-                      <Button className="w-full" variant={matchState.homeScore > matchState.awayScore && !tournament.isPlayerEliminated ? 'secondary' : 'default'} onClick={() => navigate('/knockout-bracket')}>
+                      <Button className="w-full" variant={matchState.homeScore > matchState.awayScore && tournament && !tournament.isPlayerEliminated ? 'secondary' : 'ghost'} onClick={() => navigate('/knockout-bracket')}>
                         查看淘汰赛签表 <ArrowRight className="inline ml-1" size={16} />
                       </Button>
                     </>
