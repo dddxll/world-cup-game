@@ -12,7 +12,7 @@ export function simulateAIMatch(teamA: NationalTeam, teamB: NationalTeam): {
   if (tierDiff >= 3)       { wp = 0.92; dp = 0.07 }  // A=1档 B=4档 → A胜92%
   else if (tierDiff === 2)  { wp = 0.82; dp = 0.14 }  // A=1档 B=3档 或 A=2档 B=4档
   else if (tierDiff === 1)  { wp = 0.68; dp = 0.24 }  // A=1档 B=2档 或 A=2档 B=3档
-  else if (tierDiff === 0)  { wp = 0.42; dp = 0.30 }  // 同档
+  else if (tierDiff === 0)  { wp = 0.33; dp = 0.34 }  // 同档：33%胜/34%平/33%负
   else if (tierDiff === -1) { wp = 0.22; dp = 0.26 }
   else if (tierDiff === -2) { wp = 0.10; dp = 0.16 }
   else                      { wp = 0.05; dp = 0.08 }  // A=4档 B=1档
