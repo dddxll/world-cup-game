@@ -1,52 +1,15 @@
 /**
- * BGM 管理器 — 使用 HTML5 Audio 播放本地下载的世界杯歌曲
+ * BGM 管理器 — 使用 HTML5 Audio 播放本地 FLAC 世界杯歌曲
  *
- * 曲目：
- * - home/selection/match/result/champion  →  public/audio/ 下的对应 mp3 文件
- * - 文件不存在时静默跳过，不播放任何音乐
- *
+ * 曲目：home/selection/match/result/champion
+ * 音频位置：public/audio/*.flac
  * 音量默认 35%，右下角按钮静音。
- * 用法：
- *   const bgm = BGMManager.getInstance()
- *   bgm.play('home')
- *   bgm.stop()
  */
 
 export type BGMTheme = 'home' | 'selection' | 'match' | 'result' | 'champion'
 
-/** 各主题对应的音频文件名 (public/audio/)，自动检测 .flac → .mp3 → .ogg */
 const AUDIO_NAMES: Record<BGMTheme, string> = {
-  home:      'home',
-  selection: 'selection',
-  match:     'match',
-  result:    'result',
-  champion:  'champion',
-}
-const TRY_FORMATS = ['.flac', '.mp3', '.ogg', '.wav', '.m4a']
-
-/** 检测单个 URL 是否可访问 */
-function checkFile(url: string): Promise<boolean> {
-  return new Promise(resolve => {
-    const audio = new Audio()
-    audio.volume = 0
-    const timeout = setTimeout(() => { audio.remove(); resolve(false) }, 5000)
-    const done = (ok: boolean) => { clearTimeout(timeout); audio.remove(); resolve(ok) }
-    audio.onloadeddata = () => done(true)
-    audio.onerror = () => done(false)
-    audio.src = url
-    audio.load()
-  })
-}
-
-/** 检测并返回可播放的音频路径 */
-async function resolveAudioPath(name: string): Promise<string | null> {
-  const base = import.meta.env.BASE_URL || './'
-  for (const ext of TRY_FORMATS) {
-    const path = `${base}audio/${name}${ext}`
-    const ok = await checkFile(path)
-    if (ok) return path
-  }
-  return null
+  home: 'home', selection: 'selection', match: 'match', result: 'result', champion: 'champion',
 }
 
 const DEFAULT_VOLUME = 0.35
@@ -72,25 +35,16 @@ export class BGMManager {
 
   // ========== 初始化 ==========
 
-  /** 检测本地音频文件是否存在 */
+  /** 直接加载音频（跳过检测，避免大文件超时误判） */
   private async doInit(): Promise<void> {
-    const homePath = await resolveAudioPath(AUDIO_NAMES.home)
-    if (!homePath) {
-      console.log('[BGM] 未检测到本地音频文件。放入 public/audio/ 即可启用音乐：')
-      for (const name of Object.values(AUDIO_NAMES)) {
-        console.log(`[BGM]   public/audio/${name}.flac (或 .mp3)`)
-      }
-      return
-    }
+    const base = import.meta.env.BASE_URL || './'
+    // 直接按 FLAC 构造路径，不检测文件是否存在（文件太大检测超时）
     for (const theme of ['home', 'selection', 'match', 'result', 'champion'] as BGMTheme[]) {
-      const path = await resolveAudioPath(AUDIO_NAMES[theme])
-      if (path) this.audioPaths.set(theme, path)
+      this.audioPaths.set(theme, `${base}audio/${AUDIO_NAMES[theme]}.flac`)
     }
-    this.hasAudio = this.audioPaths.size > 0
-    if (this.hasAudio) {
-      console.log(`[BGM] ✅ 本地音频已就绪 (${this.audioPaths.size}/5)`)
-      this.preloadAll()
-    }
+    this.hasAudio = true
+    console.log('[BGM] ✅ 音频路径已配置 (5首 FLAC)')
+    this.preloadAll()
   }
 
   /** 确保只初始化一次 */
