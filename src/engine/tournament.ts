@@ -524,10 +524,19 @@ export function isPlayerAdvanced(tournament: TournamentState): boolean {
 /** 获取玩家淘汰轮次对应的名次描述 */
 export function getFinalRankText(tournament: TournamentState): string {
   if (!tournament.isPlayerEliminated && tournament.currentRound === 'finished') {
-    // 检查是否赢得决赛
+    // 检查决赛结果
     const finalMatch = tournament.knockoutRounds.find(m => m.round === '决赛')
     if (finalMatch?.winner === '玩家球队') return '🏆 世界杯冠军！'
-    return '🥈 亚军'
+    if (finalMatch && (finalMatch.homeTeam === '玩家球队' || finalMatch.awayTeam === '玩家球队')) {
+      return '🥈 亚军'
+    }
+    // 检查季军赛结果
+    const thirdMatch = tournament.knockoutRounds.find(m => m.round === '季军赛')
+    if (thirdMatch?.winner === '玩家球队') return '🥉 季军'
+    if (thirdMatch && (thirdMatch.homeTeam === '玩家球队' || thirdMatch.awayTeam === '玩家球队')) {
+      return '🏅 殿军（第四名）'
+    }
+    return '赛事结束'
   }
 
   if (!tournament.isPlayerEliminated) return '赛事进行中...'
