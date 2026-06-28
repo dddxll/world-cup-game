@@ -1,9 +1,9 @@
 /**
- * BGM 管理器 — 使用 HTML5 Audio 播放本地世界杯歌曲
+ * BGM 管理器 — 使用 HTML5 Audio 播放本地下载的世界杯歌曲
  *
  * 曲目：
  * - home/selection/match/result/champion  →  public/audio/ 下的对应 mp3 文件
- * - 文件不存在时自动回退程序化合成（SynthFallback）
+ * - 文件不存在时静默跳过，不播放任何音乐
  *
  * 音量默认 35%，右下角按钮静音。
  * 用法：
@@ -29,13 +29,11 @@ function checkFile(url: string): Promise<boolean> {
   return new Promise(resolve => {
     const audio = new Audio()
     audio.volume = 0
-    // 用 loadeddata 事件（比 loadedmetadata 更可靠，确保浏览器真正请求了文件）
     const timeout = setTimeout(() => { audio.remove(); resolve(false) }, 5000)
     const done = (ok: boolean) => { clearTimeout(timeout); audio.remove(); resolve(ok) }
     audio.onloadeddata = () => done(true)
     audio.onerror = () => done(false)
     audio.src = url
-    // 强制加载：即使 src 设置后浏览器不自动加载，也手动触发
     audio.load()
   })
 }
@@ -61,9 +59,7 @@ export class BGMManager {
   private playing = false
   private muted = false
   private volume = DEFAULT_VOLUME
-  private fallbackMode = false
-  private fallbackSynth: any = null
-  private availabilityChecked = false
+  private hasAudio = false
   private initPromise: Promise<void> | null = null
 
   private constructor() {}
@@ -75,33 +71,35 @@ export class BGMManager {
 
   // ========== 初始化 ==========
 
-  /** 检测本地音频文件是否存在，不存在则启用合成回退 */
+  /** 检测本地音频文件是否存在 */
   private async doInit(): Promise<void> {
     const homePath = await resolveAudioPath(AUDIO_NAMES.home)
     if (!homePath) {
-      console.log('[BGM] 未检测到本地音频，使用合成回退。放入 public/audio/ 即可：')
+      console.log('[BGM] 未检测到本地音频文件。放入 public/audio/ 即可启用音乐：')
       for (const name of Object.values(AUDIO_NAMES)) {
         console.log(`[BGM]   public/audio/${name}.flac (或 .mp3)`)
       }
-      this.enterFallbackMode()
-    } else {
-      for (const theme of ['home', 'selection', 'match', 'result', 'champion'] as BGMTheme[]) {
-        const path = await resolveAudioPath(AUDIO_NAMES[theme])
-        if (path) this.audioPaths.set(theme, path)
-      }
+      return
+    }
+    for (const theme of ['home', 'selection', 'match', 'result', 'champion'] as BGMTheme[]) {
+      const path = await resolveAudioPath(AUDIO_NAMES[theme])
+      if (path) this.audioPaths.set(theme, path)
+    }
+    this.hasAudio = this.audioPaths.size > 0
+    if (this.hasAudio) {
       console.log(`[BGM] ✅ 本地音频已就绪 (${this.audioPaths.size}/5)`)
       this.preloadAll()
     }
   }
 
-  /** 确保只初始化一次，返回 Promise 供 play() 等待 */
+  /** 确保只初始化一次 */
   private ensureInit(): Promise<void> {
     if (this.initPromise) return this.initPromise
     this.initPromise = this.doInit()
     return this.initPromise
   }
 
-  /** 预加载所有音频文件 */
+  /** 预加载所有检测到的音频文件 */
   private preloadAll(): void {
     for (const theme of ['home', 'selection', 'match', 'result', 'champion'] as BGMTheme[]) {
       const path = this.audioPaths.get(theme)
@@ -119,29 +117,7 @@ export class BGMManager {
           audio.play().catch(() => {})
         }
       }
-      audio.onerror = () => {
-        if (theme === this.currentTheme) {
-          console.warn(`[BGM] 播放失败: ${path}`)
-          this.enterFallbackMode()
-        }
-      }
     }
-  }
-
-  // ========== 回退模式 ==========
-
-  private enterFallbackMode(): void {
-    if (this.fallbackMode) return
-    this.fallbackMode = true
-    this.stopAllAudio()
-    import('@/audio/SynthFallback').then(m => {
-      this.fallbackSynth = m.synthFallback
-      if (this.playing && this.currentTheme) {
-        this.fallbackSynth.play(this.currentTheme)
-      }
-    }).catch(() => {
-      console.warn('[BGM] 合成回退加载失败，音乐不可用')
-    })
   }
 
   // ========== 播放控制 ==========
@@ -150,13 +126,10 @@ export class BGMManager {
     this.currentTheme = theme
     this.playing = true
 
-    // 始终等 ensureInit 完成，消除竞态：第二次 play() 调用时 init 可能还未完成
+    // 等待 init 完成后再播放
     this.ensureInit().then(() => {
-      // init 完成后可能已进入 fallback 模式（文件不存在）
-      if (this.fallbackMode) {
-        if (this.fallbackSynth) this.fallbackSynth.play(theme)
-        return
-      }
+      // init 完成后如果没有音频文件，静默跳过
+      if (!this.hasAudio) return
       // 防止快速切换主题导致播放旧请求
       if (this.currentTheme !== theme || !this.playing) return
       this.startPlayback(theme)
@@ -179,19 +152,12 @@ export class BGMManager {
     audio.currentTime = 0
     audio.volume = this.muted ? 0 : this.volume
     audio.play().catch(err => {
-      console.warn('[BGM] 播放失败，切换至合成模式:', err.message)
-      this.enterFallbackMode()
-      if (this.fallbackSynth) this.fallbackSynth.play(theme)
+      console.warn('[BGM] 播放失败:', err.message)
     })
   }
 
   stop(): void {
     this.playing = false
-    this.stopAllAudio()
-    if (this.fallbackSynth) this.fallbackSynth.stop()
-  }
-
-  private stopAllAudio(): void {
     for (const [, audio] of this.audioElements) {
       audio.pause()
       audio.currentTime = 0
@@ -214,10 +180,8 @@ export class BGMManager {
     for (const [, audio] of this.audioElements) {
       audio.volume = muted ? 0 : this.volume
     }
-    if (this.fallbackSynth) this.fallbackSynth.setMuted(muted)
   }
 
   get isMuted(): boolean { return this.muted }
   get current(): BGMTheme | null { return this.currentTheme }
-  get isFallback(): boolean { return this.fallbackMode }
 }

@@ -2265,6 +2265,21 @@ export default function MatchPage() {
                       }
                     }
                     useGameStore.setState({ tournament: { ...t, playerSuspensions: suspensions } })
+                    // ★ 重伤球员永久移除：从替补席删除，确保下一场比赛中不再出现
+                    const majorInjuredIds = new Set(
+                      postMatchPlayers
+                        .filter(issue => issue.type === 'injury_major')
+                        .map(issue => issue.playerId)
+                    )
+                    if (majorInjuredIds.size > 0) {
+                      const latestSt = useGameStore.getState()
+                      useGameStore.setState({
+                        userTeam: {
+                          ...latestSt.userTeam,
+                          bench: latestSt.userTeam.bench.filter(p => !majorInjuredIds.has(p.id))
+                        }
+                      })
+                    }
                     setPhase('finished')
                   }}>
                   确认替换并继续
