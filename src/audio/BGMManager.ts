@@ -40,8 +40,9 @@ function checkFile(url: string): Promise<boolean> {
 
 /** 检测并返回可播放的音频路径 */
 async function resolveAudioPath(name: string): Promise<string | null> {
+  const base = import.meta.env.BASE_URL || './'
   for (const ext of TRY_FORMATS) {
-    const path = `/audio/${name}${ext}`
+    const path = `${base}audio/${name}${ext}`
     const ok = await checkFile(path)
     if (ok) return path
   }
