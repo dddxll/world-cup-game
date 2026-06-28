@@ -381,21 +381,20 @@ export default function MatchPage() {
             '凌空抽射！皮球应声入网！',
             '侧身凌空扫射！完美的技术展示！',
             '高高跃起头槌破门！力压防守球员！',
-            '角球开出，人群中头球一蹭入网！',
             '抢点头球攻门！角度刁钻！',
             '禁区内冷静推射远角得手！',
             '面对门将轻巧挑射！皮球越过门将头顶！',
             '穿裆射门！戏耍门将！',
             '单刀赴会！冷静施射破门！',
             '反击中单骑闯关！面对门将稳稳命中！',
-            '任意球直接破门！完美的圆月弯刀！',
-            '任意球绕过人墙直窜死角！无解！',
             '门前混战中机警补射得手！',
             '门将扑救脱手！跟进补射破门！',
             '连过两人后爆射上角！个人能力的极致体现！',
             '禁区内晃开角度抽射！皮球击中横梁下沿弹入！',
             '小角度抽射！从几乎不可能的位置破门！',
             '禁区边缘一脚兜射！皮球划出美妙弧线入网！',
+            '后插上迎球怒射！皮球直入网窝！',
+            '精妙二过一配合后推射空门！',
           ]
           goalTitle = '⚽ 进球！' + userTeam.name
           goalDesc = scorer ? scorer.name + ' ' + descs[Math.floor(Math.random() * descs.length)] : userTeam.name + ' 进球！'
@@ -416,13 +415,10 @@ export default function MatchPage() {
             '精彩的倒钩射门！技惊四座！',
             '凌空抽射破门！防守球员来不及反应！',
             '高高跃起头球攻门！角度极其刁钻！',
-            '角球开出，人群中抢点头槌破门！',
             '禁区内灵巧转身抽射！一击致命！',
             '面对门将冷静推射远角得手！',
             '反越位成功！单刀面对门将稳稳命中！',
             '反击中长驱直入！禁区边缘一脚低射破门！',
-            '任意球绕过人墙直挂死角！完美的弧线！',
-            '任意球直接破门！门将毫无办法！',
             '门前混战中补射得手！',
             '连过两人后在禁区内一脚爆射破门！',
             '禁区边缘兜射远角！皮球划出美妙弧线！',
@@ -430,6 +426,8 @@ export default function MatchPage() {
             '快速反击中以多打少！轻松推射空门得手！',
             '禁区内被放倒前捅射破门！',
             '一脚精准的低射！穿过人群窜入球门下角！',
+            '后插上迎球爆射上角！门将毫无反应！',
+            '连续一脚传递后突入禁区低射破门！',
           ]
           goalTitle = '⚽ 丢球！' + (opp?.name || '对手')
           goalDesc = pn + ' ' + descs[Math.floor(Math.random() * descs.length)]
@@ -1800,7 +1798,14 @@ export default function MatchPage() {
                 <p className="text-white/30 text-xs mb-1">{currentEvent.minute}'</p>
                 <p className="text-3xl mb-1">{getEventResultIcon(currentEvent)}</p>
                 {currentEvent.type === 'goal' && currentEvent.playerName ? (
-                  <p className="text-white/80 text-sm font-bold">{currentEvent.playerName}</p>
+                  <div>
+                    <p className="text-gold text-sm font-bold">{currentEvent.playerName}</p>
+                    <p className="text-white/50 text-xs mt-0.5 max-w-[280px] leading-snug">
+                      {currentEvent.description}
+                    </p>
+                  </div>
+                ) : currentEvent.type === 'own_goal' ? (
+                  <p className="text-white/60 text-xs">{currentEvent.description}</p>
                 ) : (
                   <p className="text-white/40 text-sm">...</p>
                 )}

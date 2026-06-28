@@ -49,31 +49,8 @@ export function generateTournament(
     }
   }
 
-  // AI 组预模拟
-  for (const g of GROUPS) {
-    if (g === playerGroup) {
-      // ★ 玩家所在组：AI 互赛不预模拟，改为每轮后逐场模拟
-      //    只初始化积分表，实际比赛在 recordGroupMatchResult 中按轮次跑
-    } else {
-      const gts = teams.filter(t => t.group === g)
-      for (let i = 0; i < gts.length; i++) {
-        for (let j = i + 1; j < gts.length; j++) {
-          const r = simulateAIMatch(gts[i], gts[j])
-          groupMatches.push({
-            id: `AI-${g}-${i}-${j}`,
-            homeTeam: gts[i].name,
-            awayTeam: gts[j].name,
-            homeScore: r.homeScore,
-            awayScore: r.awayScore,
-            events: [],
-            stats: { possession: 50, shots: 10, shotsOnTarget: 4 },
-          })
-          updateGroupRecord(groups[g], gts[i].id, gts[j].id, r.homeScore, r.awayScore)
-        }
-      }
-    }
-    groups[g].sort(sortRecords)
-  }
+  // ★ AI 组不预模拟，只初始化积分表。每轮玩家比赛后统一逐轮模拟（见 recordGroupMatchResult）
+  // 积分表已在上方循环中初始化完毕，此处无需重复
 
   // 建立玩家小组赛程：对手是保留的 3 支 AI 队
   const groupSchedule = remainingAI.map(t => ({ opponent: t.id, played: false }))
@@ -151,6 +128,30 @@ export function recordGroupMatchResult(
     if (teamA && teamB) {
       const r = simulateAIMatch(teamA, teamB)
       updateGroupRecord(next.groups[next.playerGroup], teamA.id, teamB.id, r.homeScore, r.awayScore)
+    }
+  }
+
+  // ★ 所有其他小组同步模拟当前轮次的比赛（每轮2场/组）
+  const ROUND_PAIRINGS: [number, number][][] = [
+    [[0, 1], [2, 3]],  // 第1轮: 1v2, 3v4
+    [[0, 2], [1, 3]],  // 第2轮: 1v3, 2v4
+    [[0, 3], [1, 2]],  // 第3轮: 1v4, 2v3
+  ]
+  const currentRound = idx  // 0/1/2
+  if (currentRound < 3) {
+    const pairings = ROUND_PAIRINGS[currentRound]
+    for (const g of GROUPS) {
+      if (g === next.playerGroup) continue  // 玩家组已在上面处理
+      const groupTeams = allTeams.filter(t => t.group === g)
+      if (groupTeams.length < 4) continue
+      for (const [i, j] of pairings) {
+        const teamA = groupTeams[i]
+        const teamB = groupTeams[j]
+        if (!teamA || !teamB) continue
+        const r = simulateAIMatch(teamA, teamB)
+        updateGroupRecord(next.groups[g], teamA.id, teamB.id, r.homeScore, r.awayScore)
+      }
+      next.groups[g].sort(sortRecords)
     }
   }
 
