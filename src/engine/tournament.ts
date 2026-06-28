@@ -423,14 +423,21 @@ export function recordKnockoutResult(
       m.homeTeam && m.awayTeam && m.homeTeam !== '?' && m.awayTeam !== '?'
     )
     for (const m of unplayed) {
-      // ★ 基于球队实力计算比分（而非纯随机）
+      // ★ 按 FIFA 分档计算胜率，杜绝爆冷
       const teamH = allTeams.find(t => t.name === m.homeTeam)
       const teamA = allTeams.find(t => t.name === m.awayTeam)
-      const ratingH = teamH ? Math.round((teamH.ratings.attack + teamH.ratings.defense + teamH.ratings.midfield) / 3) : 50
-      const ratingA = teamA ? Math.round((teamA.ratings.attack + teamA.ratings.defense + teamA.ratings.midfield) / 3) : 50
-      // 强队胜率基于实力差：diff越大胜率越高
-      const ratingDiff = ratingH - ratingA
-      const hWinProb = Math.min(0.85, Math.max(0.15, 0.50 + ratingDiff * 0.015))
+      const tierH = teamH?.tier || 4
+      const tierA = teamA?.tier || 4
+      const tierDiff = tierA - tierH  // 正=H更强（档位数字小=强）
+      let hWinProb: number
+      if (tierDiff >= 3)       hWinProb = 0.92
+      else if (tierDiff === 2)  hWinProb = 0.82
+      else if (tierDiff === 1)  hWinProb = 0.68
+      else if (tierDiff === 0)  hWinProb = 0.50
+      else if (tierDiff === -1) hWinProb = 0.28
+      else if (tierDiff === -2) hWinProb = 0.15
+      else                      hWinProb = 0.06
+
       const roll = Math.random()
       let h: number, a: number
       if (roll < hWinProb) {
@@ -440,12 +447,11 @@ export function recordKnockoutResult(
         h = Math.floor(Math.random() * 2)
         a = 1 + Math.floor(Math.random() * 3)
       }
-      // 平局概率（实力接近时更高）
-      if (Math.abs(ratingDiff) < 5 && Math.random() < 0.25) {
-        const g = Math.floor(Math.random() * 3)
-        h = g; a = g
-      }
-      const winner = h > a ? m.homeTeam! : a > h ? m.awayTeam! : (Math.random() < 0.5 ? m.homeTeam! : m.awayTeam!)
+      // 同档允许少量平局
+      if (tierDiff === 0 && Math.random() < 0.20) { h = 1; a = 1 }
+      // 平局时按分档判胜（加时赛强队胜）
+      const winner = h > a ? m.homeTeam! : a > h ? m.awayTeam!
+        : (tierH <= tierA ? m.homeTeam! : m.awayTeam!)
       next.knockoutRounds = next.knockoutRounds.map(x =>
         x.id === m.id ? { ...x, homeScore: h, awayScore: a, winner } : x
       )

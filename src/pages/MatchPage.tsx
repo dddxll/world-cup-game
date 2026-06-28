@@ -1321,14 +1321,21 @@ export default function MatchPage() {
             oppName = pool[Math.floor(Math.random() * pool.length)]?.name || '未知球队'
           }
 
-          // ★ 基于球队实力计算玩家胜率（而非固定65%）
+          // ★ 按球队实力分档计算玩家胜率
           const playerRating = team.overallRating || 70
+          // 将玩家综合评分映射为 FIFA 分档
+          const playerTier = playerRating >= 85 ? 1 : playerRating >= 78 ? 2 : playerRating >= 68 ? 3 : 4
           const oppTeamData = allTeams.find(t => t.name === oppName)
-          const oppRating = oppTeamData
-            ? Math.round((oppTeamData.ratings.attack + oppTeamData.ratings.defense + oppTeamData.ratings.midfield) / 3)
-            : 50
-          const ratingDiff2 = playerRating - oppRating
-          const playerWinProb = Math.min(0.90, Math.max(0.20, 0.50 + ratingDiff2 * 0.015))
+          const oppTier = oppTeamData?.tier || 3
+          const tierDiff = oppTier - playerTier  // 正=玩家更强
+          let playerWinProb: number
+          if (tierDiff >= 3)       playerWinProb = 0.92
+          else if (tierDiff === 2)  playerWinProb = 0.82
+          else if (tierDiff === 1)  playerWinProb = 0.68
+          else if (tierDiff === 0)  playerWinProb = 0.50
+          else if (tierDiff === -1) playerWinProb = 0.28
+          else if (tierDiff === -2) playerWinProb = 0.15
+          else                      playerWinProb = 0.08
           const playerWin = Math.random() < playerWinProb
           const hs = playerWin ? 1 + Math.floor(Math.random() * 2) : Math.floor(Math.random() * 2)
           const as = playerWin ? Math.floor(Math.random() * 2) : 1 + Math.floor(Math.random() * 2)
