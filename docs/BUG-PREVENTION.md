@@ -169,20 +169,32 @@ const a = Math.floor(Math.random() * 4)  // 0-3 纯随机
 ```
 巴西和卡塔尔的胜率完全相同，导致强队大量被淘汰，玩家淘汰赛全程碰弱队。
 
-### 修复
-基于球队三围评分计算胜率：
-```ts
-const ratingH = 球队综合评分; const ratingA = 对手综合评分
-const hWinProb = clamp(0.50 + (ratingH - ratingA) * 0.015, 0.15, 0.85)
-// 平局概率：实力接近时 25%
-```
+### 修复（v2 — 分档制，2026-06-28）
+**统一使用 FIFA 分档(tier)计算胜率，三处同步：**
+1. 小组赛 `simulateAIMatch`（ai.ts）
+2. 淘汰赛 `recordKnockoutResult`（tournament.ts）
+3. Skip 全部 `handleSkipAll`（MatchPage.tsx）
+
+胜率表（以 H 队为视角，tierDiff = A.tier - H.tier）：
+| tierDiff | 胜率 | 说明 |
+|----------|------|------|
+| +3 | 92% | 1档 v 4档 |
+| +2 | 82% | 1档 v 3档 / 2档 v 4档 |
+| +1 | 68% | 1档 v 2档 / 2档 v 3档 / 3档 v 4档 |
+| 0 | 50% | 同档对决 |
+| -1 | 28% | |
+| -2 | 15% | |
+| -3 | 6% | 4档 v 1档 |
+
+淘汰赛平局时按分档判胜（加时赛强队胜），不再抛硬币。
 
 ### 测试用例
 ```
-用例6.1: 巴西(tier1, 高评分) vs 卡塔尔(tier4, 低评分) → 巴西胜率应 > 80%
-用例6.2: 相近实力球队对战 → 胜率应接近 50%，平局概率应存在
-用例6.3: 运行完整淘汰赛 10 次 → 至少 7 次决赛队伍包含 tier1 球队
-用例6.4: 查看淘汰赛 bracket → 后续轮次应该主要是强队
+用例6.1: 1档 vs 4档 → 1档胜率 ≥ 90%
+用例6.2: 运行 20 次完整锦标赛 → 全部 12 支一档队晋级淘汰赛
+用例6.3: 运行 20 次 → 至少 70% 二档队晋级
+用例6.4: 四档队晋级淘汰赛概率 < 5%
+用例6.5: 决赛对阵双方至少一队为一档/二档
 ```
 
 ---
@@ -269,7 +281,9 @@ const hWinProb = clamp(0.50 + (ratingH - ratingA) * 0.015, 0.15, 0.85)
 | 重伤概率(占总伤病) | 30% | 同上 |
 | 重伤停赛场次 | 999（永不复出） | `MatchPage.tsx:post_match` |
 | 淘汰赛轮次顺序 | `32强→16强→8强→4强→决赛→季军赛` | `tournament.ts:roundOrder` |
-| AI互赛胜率范围 | 15%~85% | `tournament.ts:recordKnockoutResult` |
+| AI互赛胜率(分档制) | 6%~92% (按tier差) | `ai.ts:simulateAIMatch` + `tournament.ts:recordKnockoutResult` |
+| 1档v4档胜率 | 92% | 同上 |
+| 淘汰赛平局判决 | 按分档判胜（不再抛硬币） | `tournament.ts:recordKnockoutResult` |
 | "收官阶段"分钟 | 80-90 | `match-events.ts:assignMinutes` |
 | "抗议裁判"红牌分钟 | 45-90 | 同上 |
 | 其他红牌分钟 | 10-90 | 同上 |
