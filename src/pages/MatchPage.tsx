@@ -1286,7 +1286,7 @@ export default function MatchPage() {
         }
 
         // --- 阶段2: 模拟淘汰赛 ---
-        const roundOrder = ['32强', '16强', '8强', '4强', '季军赛', '决赛']
+        const roundOrder = ['32强', '16强', '8强', '4强', '决赛', '季军赛']
         if (!t.knockoutRounds?.length) {
           // 淘汰赛 bracket 为空：说明 generateKnockoutBracket 未被调用
           // 这不应该发生，但兜底处理
@@ -1315,7 +1315,15 @@ export default function MatchPage() {
             oppName = pool[Math.floor(Math.random() * pool.length)]?.name || '未知球队'
           }
 
-          const playerWin = Math.random() > 0.35
+          // ★ 基于球队实力计算玩家胜率（而非固定65%）
+          const playerRating = team.overallRating || 70
+          const oppTeamData = allTeams.find(t => t.name === oppName)
+          const oppRating = oppTeamData
+            ? Math.round((oppTeamData.ratings.attack + oppTeamData.ratings.defense + oppTeamData.ratings.midfield) / 3)
+            : 50
+          const ratingDiff2 = playerRating - oppRating
+          const playerWinProb = Math.min(0.90, Math.max(0.20, 0.50 + ratingDiff2 * 0.015))
+          const playerWin = Math.random() < playerWinProb
           const hs = playerWin ? 1 + Math.floor(Math.random() * 2) : Math.floor(Math.random() * 2)
           const as = playerWin ? Math.floor(Math.random() * 2) : 1 + Math.floor(Math.random() * 2)
 

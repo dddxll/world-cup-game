@@ -382,7 +382,8 @@ export function recordKnockoutResult(
   }
 
   // 推进到下一轮（季军赛后直接结束）
-  const roundOrder = ['32强', '16强', '8强', '4强', '季军赛', '决赛']
+  // ★ 正确顺序：半决赛胜者→决赛，败者→季军赛
+  const roundOrder = ['32强', '16强', '8强', '4强', '决赛', '季军赛']
   const currentIdx = roundOrder.indexOf(next.currentKnockoutRound)
   if (next.currentKnockoutRound === '季军赛' || next.currentKnockoutRound === '决赛') {
     next.currentRound = 'finished'
@@ -421,8 +422,28 @@ export function recordKnockoutResult(
       m.homeTeam && m.awayTeam && m.homeTeam !== '?' && m.awayTeam !== '?'
     )
     for (const m of unplayed) {
-      const h = Math.floor(Math.random() * 4)
-      const a = Math.floor(Math.random() * 4)
+      // ★ 基于球队实力计算比分（而非纯随机）
+      const teamH = allTeams.find(t => t.name === m.homeTeam)
+      const teamA = allTeams.find(t => t.name === m.awayTeam)
+      const ratingH = teamH ? Math.round((teamH.ratings.attack + teamH.ratings.defense + teamH.ratings.midfield) / 3) : 50
+      const ratingA = teamA ? Math.round((teamA.ratings.attack + teamA.ratings.defense + teamA.ratings.midfield) / 3) : 50
+      // 强队胜率基于实力差：diff越大胜率越高
+      const ratingDiff = ratingH - ratingA
+      const hWinProb = Math.min(0.85, Math.max(0.15, 0.50 + ratingDiff * 0.015))
+      const roll = Math.random()
+      let h: number, a: number
+      if (roll < hWinProb) {
+        h = 1 + Math.floor(Math.random() * 3)
+        a = Math.floor(Math.random() * 2)
+      } else {
+        h = Math.floor(Math.random() * 2)
+        a = 1 + Math.floor(Math.random() * 3)
+      }
+      // 平局概率（实力接近时更高）
+      if (Math.abs(ratingDiff) < 5 && Math.random() < 0.25) {
+        const g = Math.floor(Math.random() * 3)
+        h = g; a = g
+      }
       const winner = h > a ? m.homeTeam! : a > h ? m.awayTeam! : (Math.random() < 0.5 ? m.homeTeam! : m.awayTeam!)
       next.knockoutRounds = next.knockoutRounds.map(x =>
         x.id === m.id ? { ...x, homeScore: h, awayScore: a, winner } : x

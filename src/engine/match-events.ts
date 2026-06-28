@@ -271,13 +271,11 @@ export function generateMatchEvents(
     })
   }
 
-  // -------- 3. 受伤事件 (小伤停1场 / 大伤报销；弱方受伤率80%) --------
-  const injuryCount = Math.floor(Math.random() * 2) // 0-1次
+  // -------- 3. 受伤事件 (小伤停1场 / 大伤报销) --------
+  const injuryCount = 1 + Math.floor(Math.random() * 2) // 1-2次，确保每场都有伤病
   for (let i = 0; i < injuryCount; i++) {
-    // ★ 弱方 60% / 强方 40%（固定比例，不分档）
-    const weakSide: MatchEventSide = diff > 0 ? 'away' : 'home'
-    const strongSide: MatchEventSide = diff > 0 ? 'home' : 'away'
-    const side: MatchEventSide = Math.random() < 0.60 ? weakSide : strongSide
+    // ★ 双方均等概率 50/50（不再偏向弱方）
+    const side: MatchEventSide = Math.random() < 0.50 ? 'home' : 'away'
     const p = side === 'home' ? pickHomePlayer(home, usedPlayerIds) : null
     const playerDesc = side === 'home'
       ? (p ? p.name : home.name + '球员')
