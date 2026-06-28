@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:gitee": "npm run build && npx gh-pages -d dist -b gitee-pages -m \"deploy [skip ci]\""
   },
   "dependencies": {
     "framer-motion": "^10.18.0",
