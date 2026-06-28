@@ -76,6 +76,8 @@ export default function MatchPage() {
   const skippingRef = useRef(false)
   // 防止 AI 点球重复执行
   const aiPenaltyLockRef = useRef(false)
+  // ★ 保存比赛开始前的初始首发（用于赛后还原非禁赛换人）
+  const initialXIRef = useRef<(Player | null)[]>([])
   /** 根据教练 ADP 计算本场概率修正上限（15%~20%） */
   function getProbCap(): number {
     const adp = userTeam.coach?.adp || 12
@@ -195,6 +197,8 @@ export default function MatchPage() {
       return
     }
 
+    // ★ 保存比赛前初始首发阵容（赛后还原用）
+    initialXIRef.current = [...userTeam.startingXI]
     // 正常开始比赛
     try {
       if (!lockedOpponentRef.current && opponent) {
@@ -533,8 +537,10 @@ export default function MatchPage() {
           type: isSecondYellow ? 'red' : 'yellow', minute: evt.minute,
         }]
         if (isSecondYellow) {
+          const rcIdxA = userTeam.startingXI.findIndex(p => p?.id === evt.playerId)
           next.sendOffsThisMatch = [...next.sendOffsThisMatch, {
-            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute, originalXiIndex: -1,
+            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute,
+            originalXiIndex: rcIdxA >= 0 ? rcIdxA : -1,
           }]
         }
       } else if (evt.type === 'card_red' || evt.type === 'card_second_yellow') {
@@ -544,17 +550,20 @@ export default function MatchPage() {
         }]
         // ★ 仅记录己方罚下
         if (evt.side === 'home') {
+          const rcIdxB = userTeam.startingXI.findIndex(p => p?.id === evt.playerId)
           next.sendOffsThisMatch = [...next.sendOffsThisMatch, {
-            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute, originalXiIndex: -1,
+            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute,
+            originalXiIndex: rcIdxB >= 0 ? rcIdxB : -1,
           }]
         }
       }
       // ★ 仅记录己方受伤（对方受伤不需要玩家处理）
       if ((evt.type === 'injury_minor' || evt.type === 'injury_major') && evt.side === 'home') {
+        const injIdx = userTeam.startingXI.findIndex(p => p?.id === evt.playerId)
         next.injuriesThisMatch = [...next.injuriesThisMatch, {
           playerName: evt.playerName || '', playerId: evt.playerId || '',
           type: evt.type === 'injury_major' ? 'major' : 'minor',
-          minute: evt.minute, originalXiIndex: -1,
+          minute: evt.minute, originalXiIndex: injIdx >= 0 ? injIdx : -1,
         }]
       }
 
@@ -585,8 +594,11 @@ export default function MatchPage() {
           type: isSecondYellow ? 'red' : 'yellow', minute: evt.minute,
         }]
         if (isSecondYellow) {
+          // ★ 在移除前找到球员在首发中的位置
+          const rcIdx2 = userTeam.startingXI.findIndex(p => p?.id === evt.playerId)
           next.sendOffsThisMatch = [...next.sendOffsThisMatch, {
-            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute, originalXiIndex: -1,
+            playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute,
+            originalXiIndex: rcIdx2 >= 0 ? rcIdx2 : -1,
           }]
         }
       } else if ((evt.type === 'card_red' || evt.type === 'card_second_yellow') && evt.side === 'home') {
@@ -594,16 +606,20 @@ export default function MatchPage() {
           playerName: evt.playerName || '', playerId: evt.playerId || '',
           type: 'red', minute: evt.minute,
         }]
+        // ★ 在移除前找到球员在首发中的位置
+        const rcIdx3 = userTeam.startingXI.findIndex(p => p?.id === evt.playerId)
         next.sendOffsThisMatch = [...next.sendOffsThisMatch, {
-          playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute, originalXiIndex: -1,
+          playerName: evt.playerName || '', playerId: evt.playerId || '', minute: evt.minute,
+          originalXiIndex: rcIdx3 >= 0 ? rcIdx3 : -1,
         }]
       }
       // 仅记录己方伤病（对方受伤不需要玩家处理）
       if ((evt.type === 'injury_minor' || evt.type === 'injury_major') && evt.side === 'home') {
+        const injIdx2 = userTeam.startingXI.findIndex(p => p?.id === evt.playerId)
         next.injuriesThisMatch = [...next.injuriesThisMatch, {
           playerName: evt.playerName || '', playerId: evt.playerId || '',
           type: evt.type === 'injury_major' ? 'major' : 'minor',
-          minute: evt.minute, originalXiIndex: -1,
+          minute: evt.minute, originalXiIndex: injIdx2 >= 0 ? injIdx2 : -1,
         }]
       }
 
@@ -943,6 +959,10 @@ export default function MatchPage() {
           })
         }
       }
+      // ★ 赛后还原非禁赛换人（无伤停时立即还原因，有伤停延后到post_match确认后）
+      if (issues.length === 0) {
+        restoreNonForcedPositions([])
+      }
       if (issues.length > 0) {
         setPostMatchPlayers(issues)
         setPostMatchReplacements(new Map())
@@ -1044,6 +1064,9 @@ export default function MatchPage() {
             issues.push({ playerName: so.playerName, playerId: so.playerId,
               reason: '🟥 红牌停赛1场', type: 'red_card', originalXiIndex: so.originalXiIndex })
           }
+        }
+        if (issues.length === 0) {
+          restoreNonForcedPositions([])
         }
         if (issues.length > 0) {
           setPostMatchPlayers(issues)
@@ -1177,6 +1200,10 @@ export default function MatchPage() {
             reason: '🟥 红牌停赛1场', type: 'red_card', originalXiIndex: so.originalXiIndex })
         }
       }
+      if (issues.length === 0) {
+        restoreNonForcedPositions([])
+        setPhase('finished')
+      }
       if (issues.length > 0) {
         setPostMatchPlayers(issues)
         setPostMatchReplacements(new Map())
@@ -1185,6 +1212,23 @@ export default function MatchPage() {
     }
 
     setMatchState(prev => prev ? { ...prev, finished: true, homeScore: totalHome, awayScore: totalAway } : prev)
+  }
+
+  /** 赛后还原非禁赛/非伤病换人：把正常替补换回替补席，原首发归位 */
+  function restoreNonForcedPositions(forcedOriginalXiIndices: number[]) {
+    const forcedSet = new Set(forcedOriginalXiIndices.filter(idx => idx >= 0))
+    for (let i = 0; i < 11; i++) {
+      if (forcedSet.has(i)) continue
+      const initial = initialXIRef.current[i]
+      if (!initial) continue
+      const st = useGameStore.getState()
+      const currentPlayer = st.userTeam.startingXI[i]
+      if (!currentPlayer || currentPlayer.id === initial.id) continue
+      const onBench = st.userTeam.bench.find(p => p.id === initial.id)
+      if (onBench) {
+        useGameStore.getState().setStartingPlayer(i, onBench)
+      }
+    }
   }
 
   /** 跳过本场 */
@@ -2048,7 +2092,14 @@ export default function MatchPage() {
                         const isInjured = injuredIds.has(p.id)
                         const sentOffIds = new Set((matchState?.sendOffsThisMatch || []).map(s => s.playerId))
                         const isSentOff = sentOffIds.has(p.id)
-                        const isBlocked = subbedIn || isSubbedOut || isInjured || isSentOff
+                        // ★ 检查历史禁赛：上场比赛吃红牌的球员本场不可上场
+                        const suspendedIds = new Set(
+                          (tournament?.playerSuspensions || [])
+                            .filter(s => s.suspendedUntilMatch > (tournament?.currentMatchIndex || 0))
+                            .map(s => s.playerId)
+                        )
+                        const isSuspended = suspendedIds.has(p.id)
+                        const isBlocked = subbedIn || isSubbedOut || isInjured || isSentOff || isSuspended
                         const isAvailable = !isBlocked
 
                         const posMatch = isAvailable && (selectedSubOut?.positions[0] || currentEvent?.playerPosition) &&
@@ -2061,6 +2112,7 @@ export default function MatchPage() {
                         else if (isSubbedOut) { blockLabel = '🔄 已换下'; blockStyle = 'border-gray-500/40 bg-gray-800/30 opacity-60' }
                         else if (isInjured) { blockLabel = '🚑 受伤'; blockStyle = 'border-red-500/40 bg-red-900/25 opacity-70' }
                         else if (isSentOff) { blockLabel = '🟥 罚下'; blockStyle = 'border-red-500/40 bg-red-900/25 opacity-70' }
+                        else if (isSuspended) { blockLabel = '⛔ 禁赛'; blockStyle = 'border-orange-500/40 bg-orange-900/25 opacity-70' }
 
                         return (
                         <button key={p.id}
@@ -2325,6 +2377,8 @@ export default function MatchPage() {
                         }
                       })
                     }
+                    // ★ 赛后还原非禁赛换人（禁赛/伤病位置保留替换）
+                    restoreNonForcedPositions(postMatchPlayers.map(issue => issue.originalXiIndex))
                     setPhase('finished')
                   }}>
                   确认替换并继续
