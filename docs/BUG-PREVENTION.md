@@ -380,7 +380,40 @@ if (Math.random() < 0.12 && canBeOffside) { /* 触发 VAR */ }
 | 2026-06-28 | #9 | 合成音效删除 |
 | 2026-06-28 | #10 | 所有小组逐轮模拟 |
 | 2026-06-28 | #11 | 进球 event_result 展示完整描述 |
-| 2026-06-28 | #12 | 删除角球/任意球破门（VAR越位不适用） |
+| 2026-06-28 | #12 | VAR越位只过滤触发条件 |
+| 2026-06-28 | #13 | 红牌禁赛不可换上 + 复出回原位 + 正常替补还原 |
+
+---
+
+## Bug #13: 红牌禁赛链三连 Bug
+
+**日期:** 2026-06-28  
+**严重度:** 🔴 游戏逻辑  
+**文件:** `src/pages/MatchPage.tsx`
+
+### 子问题 A：红牌禁赛球员下场仍能被换上
+**根因:** 替补过滤只检查本场 `sendOffsThisMatch`/`injuriesThisMatch`，未检查 `tournament.playerSuspensions`（上场比赛的红牌禁赛记录）。  
+**修复:** 替补过滤新增 `isSuspended` 检查，标记 `⛔ 禁赛` 且不可选中。
+
+### 子问题 B：复出回原位按钮失效
+**根因:** `handleInteractiveChoice` 中红牌记录设 `originalXiIndex: -1`，然后才移除球员 → `handleSubstitutionConfirm` 找不到球员位置 → `originalXiIndex` 永远保持 -1 → 复出时无法定位原位。  
+**修复:** 在 `handleInteractiveChoice`/`handleEventAuto` 中，**先**用 `findIndex` 找到球员在首发中的位置，**再**设置正确的 `originalXiIndex`。
+
+### 子问题 C：正常替补下场赖在首发
+**根因:** `setStartingPlayer` 做原子交换（替补↔首发），但赛后没人换回来。  
+**修复:** 
+1. `intro` effect 保存 `initialXIRef`（比赛前首发快照）
+2. 新增 `restoreNonForcedPositions()` 函数：遍历 11 个位置，跳过禁赛/伤病位置，其余位置如果当前球员≠初始球员且初始球员在替补席→换回
+3. 在 `finishMatch`/`finishExtraTime`/`finishPenalties` 的无伤停路径 + `post_match` 确认中调用
+
+### 测试用例
+```
+用例13.1: 上场红牌球员→下一场比赛替补席显示"⛔ 禁赛"，不可选中
+用例13.2: 禁赛1场后→pre_return显示复出选项→"回首发"→球员回到正确位置
+用例13.3: 正常战术换人→赛后→原首发回到首发，替补回到替补席
+用例13.4: 红牌换人位置→赛后保留新球员（不还原）
+用例13.5: 混合同场(既有红牌又有战术换人)→红牌位置保留新球员，其余位置还原
+```
 
 ---
 
