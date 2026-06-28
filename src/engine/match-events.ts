@@ -478,9 +478,21 @@ function assignMinutes(events: MatchEventV2[]) {
     if (evt.type === 'fatigue') {
       constrained.push({ idx: i, minMinute: 58, maxMinute: 85 })
     } else if (evt.type === 'tactical') {
-      constrained.push({ idx: i, minMinute: 46, maxMinute: 88 }) // ★ 战术调整只在下半场出现
+      // ★ 收官/死守类战术只出现在80分钟后才符合现实
+      if (evt.title.includes('收官阶段') || evt.title.includes('退守禁区')) {
+        constrained.push({ idx: i, minMinute: 80, maxMinute: 90 })
+      } else {
+        constrained.push({ idx: i, minMinute: 46, maxMinute: 88 }) // 战术调整只在下半场出现
+      }
     } else if (evt.type === 'injury_minor' || evt.type === 'injury_major') {
       constrained.push({ idx: i, minMinute: 25, maxMinute: 80 })
+    } else if (evt.type === 'card_red' || evt.type === 'card_second_yellow') {
+      // ★ 红牌至少10分钟后才出现；抗议裁判类红牌至少45分钟后（情绪积累）
+      if (evt.description.includes('抗议裁判')) {
+        constrained.push({ idx: i, minMinute: 45, maxMinute: 90 })
+      } else {
+        constrained.push({ idx: i, minMinute: 10, maxMinute: 90 })
+      }
     } else if (evt.type === 'goal' || evt.type === 'own_goal' || evt.type === 'var_goal' || evt.type === 'goal_opportunity') {
       goalIndices.push(i)
     } else {

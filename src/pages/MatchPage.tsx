@@ -72,6 +72,8 @@ export default function MatchPage() {
   const lockedOpponentRef = useRef<{ id: string; name: string; flag: string } | null>(null)
   // 防止 skip 模拟重复执行
   const skipSimRunningRef = useRef(false)
+  // ★ 跳过锁：防止 skip 期间其他定时器修改 phase
+  const skippingRef = useRef(false)
   // 防止 AI 点球重复执行
   const aiPenaltyLockRef = useRef(false)
   /** 根据教练 ADP 计算本场概率修正上限（15%~20%） */
@@ -173,6 +175,7 @@ export default function MatchPage() {
 
   // 生成事件（仅在 intro 阶段执行一次）
   useEffect(() => {
+    if (skippingRef.current) return
     if (phase !== 'intro' || !tournament) return
 
     // ★ 赛前复出检查
@@ -220,6 +223,7 @@ export default function MatchPage() {
 
   // 处理自动事件推进
   useEffect(() => {
+    if (skippingRef.current) return
     if (phase !== 'event_active' || !matchState) return
     const evt = matchState.events[currentEventIndex]
     if (!evt || evt.interactive) return
@@ -239,6 +243,7 @@ export default function MatchPage() {
 
   // ★ VAR 越位检查 → 展示检查动画 → 2s后出结果
   useEffect(() => {
+    if (skippingRef.current) return
     if (phase !== 'var_check' || !varCheckState) return
     const timer = setTimeout(() => {
       setPhase('var_result')
@@ -248,6 +253,7 @@ export default function MatchPage() {
 
   // ★ VAR 结果 → 展示结果 → 2s后更新比分并推进
   useEffect(() => {
+    if (skippingRef.current) return
     if (phase !== 'var_result' || !varCheckState || !matchState) return
     const timer = setTimeout(() => {
       const next = { ...matchState }
@@ -281,6 +287,7 @@ export default function MatchPage() {
 
   // ★ 加时赛自动事件推进
   useEffect(() => {
+    if (skippingRef.current) return
     if (phase !== 'extra_time_active' || extraTimeEvents.length === 0) return
     if (extraTimeEventIdx >= extraTimeEvents.length) return
 
@@ -298,6 +305,7 @@ export default function MatchPage() {
 
   // ★ AI 自动罚点球（加锁防止竞态重复触发）
   useEffect(() => {
+    if (skippingRef.current) return
     if (phase !== 'penalties_shootout' || !penaltyState || penaltyState.finished) return
     if (penaltyState.currentTaker !== 'away') return
     if (penaltyResult || penaltyChoice) return
@@ -327,6 +335,7 @@ export default function MatchPage() {
 
   /** 自动事件处理 */
   function handleEventAuto(evt: MatchEventV2) {
+    if (skippingRef.current) return
     try {
       if (!matchState) return
       let next = { ...matchState }
@@ -554,6 +563,7 @@ export default function MatchPage() {
 
   /** 交互事件 - 玩家选择了选项 */
   function handleInteractiveChoice(evt: MatchEventV2, option: MatchEventOptionV2) {
+    if (skippingRef.current) return
     try {
       if (!matchState) return
       let next = { ...matchState }
@@ -780,6 +790,7 @@ export default function MatchPage() {
 
   /** 推进到下一个事件 */
   function advanceToNextEvent(nextIndex: number, state: MatchStateV2) {
+    if (skippingRef.current) return
     try {
       setCurrentEventIndex(nextIndex)
       setMatchState(state)
@@ -1172,6 +1183,9 @@ export default function MatchPage() {
 
   /** 跳过本场 */
   function handleSkipMatch() {
+    // ★ 加锁：阻止所有定时器在此期间修改 phase
+    if (skippingRef.current) return
+    skippingRef.current = true
     // 先清除所有待执行的定时器，防止竞态条件：advanceTimer 在 skip 期间触发
     // finishMatch 覆盖 skip 写入的 tournament 状态
     if (autoTimerRef.current) { clearTimeout(autoTimerRef.current); autoTimerRef.current = null }
@@ -1233,6 +1247,9 @@ export default function MatchPage() {
     // 防重复执行
     if (skipSimRunningRef.current) return
     skipSimRunningRef.current = true
+    // ★ 加锁：阻止所有定时器在此期间修改 phase
+    if (skippingRef.current) return
+    skippingRef.current = true
 
     // 先清除所有待执行的定时器
     if (autoTimerRef.current) { clearTimeout(autoTimerRef.current); autoTimerRef.current = null }
